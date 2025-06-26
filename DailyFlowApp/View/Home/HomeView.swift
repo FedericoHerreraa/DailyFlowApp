@@ -1,0 +1,73 @@
+//
+//  HomeView.swift
+//  DailyFlowApp
+//
+//  Created by Federico Herrera on 24/06/2025.
+//
+
+import SwiftUI
+
+struct HomeView: View {
+    @State var showCalendarSheet = false
+    
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                DailySummaryView()
+                    .padding(.top, 15)
+                
+                CalendarHomeVIew()
+                    .padding(.top, 15)
+                
+                TodayTasksView()
+                    .padding(.top, 20)
+                
+                ProgressHomeView()
+                    .padding(.top, 20)
+                
+                Spacer()
+            }
+            .navigationTitle("Daily Flow")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showCalendarSheet.toggle()
+                    } label: {
+                        Image(systemName: "calendar")
+                            .resizable()
+                            .foregroundColor(.black.opacity(0.8))
+                            .scaledToFit()
+                            .frame(height: 25)
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        print("hola")
+                    } label: {
+                        Image(systemName: "person.crop.circle")
+                            .resizable()
+                            .foregroundColor(.black.opacity(0.8))
+                            .scaledToFit()
+                            .frame(height: 25)
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("Welcome back")
+                        .foregroundColor(.black.opacity(0.6))
+                }
+            }
+        }
+        .sheet(isPresented: $showCalendarSheet) {
+            Text("Here is going to be the calendar")
+        }
+    }
+}
+
+
+
+
+#Preview {
+    HomeView()
+}
