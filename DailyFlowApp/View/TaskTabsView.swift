@@ -3,6 +3,7 @@
 import SwiftUI
 
 struct TaskTabsView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     @State var tabSelected: Int = 0
     
     init() {
@@ -27,7 +28,7 @@ struct TaskTabsView: View {
                 }
                 .tag(1)
             
-            CalendarView()
+            MonthCalendarView()
                 .tabItem {
                     Label("Calendar", systemImage: "calendar")
                 }
@@ -40,7 +41,7 @@ struct TaskTabsView: View {
                 .tag(3)
             
         }
-        .accentColor(Color.green)
+        .accentColor(accentColor.color)
     }
 }
 

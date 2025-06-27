@@ -16,7 +16,7 @@ struct HomeView: View {
                 DailySummaryView()
                     .padding(.top, 15)
                 
-                CalendarHomeVIew()
+                CalendarHomeView()
                     .padding(.top, 15)
                 
                 TodayTasksView()
@@ -60,7 +60,7 @@ struct HomeView: View {
             }
         }
         .sheet(isPresented: $showCalendarSheet) {
-            Text("Here is going to be the calendar")
+            MonthSheetCalendarView(showCalendarSheet: $showCalendarSheet)
         }
     }
 }

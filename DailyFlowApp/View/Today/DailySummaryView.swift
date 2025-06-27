@@ -38,6 +38,7 @@ struct DailySummaryView: View {
                         Image(systemName: "list.bullet.clipboard")
                         Text("\(routine.tasks.count) task\(routine.tasks.count == 1 ? "" : "s") for today")
                             .font(.headline)
+                            .foregroundColor(.black.opacity(0.7))
                     }
                     
                     if let firstTask = routine.tasks.first,
@@ -46,6 +47,7 @@ struct DailySummaryView: View {
                                 Image(systemName: "clock")
                                 Text("\(formatted(firstTask.startHour)) - \(formatted(lastTask.endHour))")
                                     .font(.headline)
+                                    .foregroundColor(.black.opacity(0.7))
                             }
                     }
                 }

@@ -12,9 +12,12 @@ import UserNotifications
 
 @main
 struct DailyFlowAppApp: App {
+    @StateObject var accentColor = AccentColor()
+    
     var body: some Scene {
         WindowGroup {
             TaskTabsView()
+                .environmentObject(accentColor)
                 .onAppear {
                     requestNotificationPermissions()
                 }

@@ -10,6 +10,7 @@ import SwiftData
 
 
 struct RoutineView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
     
@@ -31,21 +32,24 @@ struct RoutineView: View {
                     } label: {
                         HStack {
                             Circle()
-                                .fill(Color.green)
+                                .fill(accentColor.color)
                                 .frame(width: 13, height: 13)
                             
                             Text("With routine")
-                                .font(.caption)
+                                .font(.subheadline)
                                 .foregroundColor(.black)
                                 .padding(.leading, 2)
+                            
+                            Image(systemName: viewModel.filterByCreated ? "minus" : "plus")
+                                .foregroundColor(accentColor.color)
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 7)
-                        .background(viewModel.filterByCreated ? Color.green.opacity(0.1) : Color.gray.opacity(0.1))
+                        .background(viewModel.filterByCreated ? accentColor.color.opacity(0.1) : Color.gray.opacity(0.1))
                         .clipShape(Capsule())
                         .overlay {
                             RoundedRectangle(cornerRadius: 18)
-                                .stroke(viewModel.filterByCreated ? Color.green : Color.gray.opacity(0.5), lineWidth: 2)
+                                .stroke(viewModel.filterByCreated ? accentColor.color : Color.gray.opacity(0.5), lineWidth: 2)
                         }
                     }
                     
@@ -62,17 +66,20 @@ struct RoutineView: View {
                                 .frame(width: 13, height: 13)
                             
                             Text("Without routine")
-                                .font(.caption)
+                                .font(.subheadline)
                                 .foregroundColor(.black)
                                 .padding(.leading, 2)
+                            
+                            Image(systemName: viewModel.filterByNoCreated ? "minus" : "plus")
+                                .foregroundColor(.gray)
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 7)
-                        .background(viewModel.filterByNoCreated ? Color.green.opacity(0.1) : Color.gray.opacity(0.1))
+                        .background(viewModel.filterByNoCreated ? accentColor.color.opacity(0.1) : Color.gray.opacity(0.1))
                         .clipShape(Capsule())
                         .overlay {
                             RoundedRectangle(cornerRadius: 18)
-                                .stroke(viewModel.filterByNoCreated ? Color.green : Color.gray.opacity(0.5), lineWidth: 2)
+                                .stroke(viewModel.filterByNoCreated ? accentColor.color : Color.gray.opacity(0.5), lineWidth: 2)
                         }
                     }
 
@@ -89,7 +96,7 @@ struct RoutineView: View {
                 .listStyle(.plain)
                 .padding(.top, 20)
             }
-            .navigationTitle("Crea tu rutina")
+            .navigationTitle("Create your routine")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -110,13 +117,14 @@ struct RoutineView: View {
             }
         }
         .sheet(isPresented: $viewModel.showCalendarSheet) {
-            Text("Calendar sheet")
+            MonthSheetCalendarView(showCalendarSheet: $viewModel.showCalendarSheet)
         }
     }
 }
 
 
 struct RoutineItemView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     let day: String
     let routineManager: RoutineManager
     @ObservedObject var viewModel: RoutineViewModel
@@ -131,7 +139,7 @@ struct RoutineItemView: View {
                 VStack(alignment: .leading) {
                     HStack {
                         Circle()
-                            .fill(routineManager.routineForThatDay(day: day) != nil ? Color.green : Color.gray)
+                            .fill(routineManager.routineForThatDay(day: day) != nil ? accentColor.color : Color.gray)
                             .frame(width: 13, height: 13)
                         
                         Text(day)

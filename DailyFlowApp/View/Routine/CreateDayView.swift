@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct CreateDayView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
     
@@ -17,7 +18,6 @@ struct CreateDayView: View {
     }
     
     @StateObject var viewModel = CreateDayViewModel()
-    @State var updateTask: Bool = false
     let day: String
     
     var body: some View {
@@ -38,8 +38,10 @@ struct CreateDayView: View {
                                                 Label("Delete", systemImage: "trash")
                                             }
                                             
+                                            
                                             Button {
-                                                updateTask = true
+                                                viewModel.updateTask = true
+                                                viewModel.taskId = task.id
                                                 viewModel.title = task.title
                                                 viewModel.description = task.taskDescription
                                                 viewModel.startTime = task.startHour
@@ -47,7 +49,7 @@ struct CreateDayView: View {
                                             } label: {
                                                 Label("Edit", systemImage: "ellipsis")
                                             }
-                                            .tint(.gray)
+                                            .tint(.gray.opacity(0.5))
                                         }
                                 }
                             }
@@ -57,7 +59,7 @@ struct CreateDayView: View {
                     EmptyView()
                 }
                 
-                Section(header: Text(updateTask ? "Update routine for \(day)" : "Create routine for \(day)")) {
+                Section(header: Text(viewModel.updateTask ? "Update routine for \(day)" : "Create routine for \(day)")) {
                     TextField("Enter task title", text: $viewModel.title)
                     TextField("Enter task description", text: $viewModel.description)
                     
@@ -70,15 +72,16 @@ struct CreateDayView: View {
                     
                     if formValid == nil {
                         let task = Task(
+                            id: viewModel.taskId,
                             title: viewModel.title,
                             description: viewModel.description,
                             startHour: viewModel.startTime,
                             endHour: viewModel.endTime
                         )
-                        
-                        if updateTask {
+                                                
+                        if viewModel.updateTask {
                             routineManager.updateTask(updatedTask: task, day: day)
-                            updateTask = false
+                            viewModel.updateTask = false
                         } else {
                             routineManager.addTaskToRoutine(task: task, day: day)
                         }
@@ -89,7 +92,8 @@ struct CreateDayView: View {
                         viewModel.showAlert.toggle()
                     }
                 } label: {
-                    Text(updateTask ? "Update task" : "Save task")
+                    Text(viewModel.updateTask ? "Update task" : "Save task")
+                        .foregroundColor(accentColor.color)
                 }
             }
         }
@@ -101,16 +105,16 @@ struct CreateDayView: View {
 
 
 struct RoutineCreatedView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     @StateObject var viewModel = CreateDayViewModel()
     let task: Task
     
     var body: some View {
         HStack(spacing: 10) {
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text("\(viewModel.formattedHour(task.startHour)) - \(viewModel.formattedHour(task.endHour))")
-                    .font(.caption)
+                    .font(.subheadline)
                     .foregroundColor(.black)
-                    .bold()
                 
                 Text(task.title)
                     .font(.headline)
@@ -125,7 +129,7 @@ struct RoutineCreatedView: View {
                 }
 
             }
-            .padding()
+            .padding(10)
             .background(Color(.systemGray6))
             .cornerRadius(8)
             
@@ -136,7 +140,7 @@ struct RoutineCreatedView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 24, height: 24)
-                    .foregroundColor(.gray)
+                    .foregroundColor(accentColor.color)
 
                 Text("Swipe to delete")
                     .font(.caption2)
@@ -150,4 +154,5 @@ struct RoutineCreatedView: View {
 
 #Preview {
     CreateDayView(day: "Lunes")
+        .environmentObject(AccentColor())
 }

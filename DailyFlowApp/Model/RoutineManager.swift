@@ -28,8 +28,6 @@ struct RoutineManager {
     func updateTask(updatedTask: Task, day: String) {
         if let routine = routines.first(where: { $0.day == day }) {
             if let existingTask = routine.tasks.first(where: { $0.id == updatedTask.id }) {
-                print("Old task \(existingTask)")
-                print("New task \(updatedTask)")
                 existingTask.title = updatedTask.title
                 existingTask.taskDescription = updatedTask.taskDescription
                 existingTask.startHour = updatedTask.startHour

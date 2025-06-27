@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct TodayTasksView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) private var modelContext
     @Query private var routines: [Routine]
     
@@ -32,7 +33,7 @@ struct TodayTasksView: View {
                 } label: {
                     Image(systemName: "plus")
                         .resizable()
-                        .foregroundColor(.green)
+                        .foregroundColor(accentColor.color)
                         .bold()
                         .scaledToFit()
                         .frame(height: 15)
@@ -41,7 +42,7 @@ struct TodayTasksView: View {
             .padding(.horizontal, 25)
             
             if let routine = routineManager.todaysRoutine() {
-                ForEach(routine.tasks) { task in
+                ForEach(routine.tasks.sorted(by: { $0.startHour < $1.startHour })) { task in
                     TaskView(task: task)
                 }
             } else {
@@ -57,8 +58,11 @@ struct TodayTasksView: View {
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                             ToolbarItem(placement: .confirmationAction) {
-                                Button("Done") {
+                                Button {
                                     showSheetCreateTask = false
+                                } label: {
+                                    Text("Done")
+                                        .foregroundColor(accentColor.color)
                                 }
                             }
                         }
@@ -80,6 +84,7 @@ struct TodayTasksView: View {
 
 
 struct TaskView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     let task: Task
     
     var body: some View {
@@ -88,7 +93,7 @@ struct TaskView: View {
                 RoundedRectangle(cornerRadius: 10)
                     .fill(Color.black)
                     .frame(width: 4)
-                    .frame(minHeight: 60)
+                    .frame(minHeight: 70)
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(task.title)
@@ -106,14 +111,20 @@ struct TaskView: View {
                 }
             }
             .frame(height: calculateHeight(start: task.startHour, end: task.endHour))
-            .frame(minHeight: 50)
+            .frame(minHeight: 40)
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.green.opacity(0.1))
+            .background(
+                LinearGradient(
+                    colors: [accentColor.color.opacity(0.2), accentColor.color.opacity(0.02)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
             .cornerRadius(16)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.green.opacity(0.3), lineWidth: 1)
+                    .stroke(accentColor.color.opacity(0.3), lineWidth: 1)
             )
         }
         .padding(.horizontal)

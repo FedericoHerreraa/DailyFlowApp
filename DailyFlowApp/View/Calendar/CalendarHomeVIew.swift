@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 
-struct CalendarHomeVIew: View {
+struct CalendarHomeView: View {
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
     
@@ -28,6 +28,7 @@ struct CalendarHomeVIew: View {
 
 
 struct CalendarDayView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
     
@@ -40,7 +41,7 @@ struct CalendarDayView: View {
     var body: some View {
         VStack(alignment: .center) {
             Circle()
-                .fill(routineManager.routineForThatDay(day: day) != nil ? Color.green : Color.gray)
+                .fill(routineManager.routineForThatDay(day: day) != nil ? accentColor.color : Color.gray)
                 .frame(width: 10, height: 10)
             
             Text(day.prefix(1).uppercased())
@@ -55,5 +56,5 @@ struct CalendarDayView: View {
 }
 
 #Preview {
-    CalendarHomeVIew()
+    CalendarHomeView()
 }

@@ -9,8 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct ProgressHomeView: View {
+    @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
+    @State private var currentDate = Date()
+    
+    let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     var routineManager: RoutineManager {
         RoutineManager(modelContext: modelContext, routines: routines)
@@ -20,7 +24,7 @@ struct ProgressHomeView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE"
         formatter.locale = Locale(identifier: "en_US")
-        return formatter.string(from: Date())
+        return formatter.string(from: currentDate)
     }
 
     var progress: Double {
@@ -38,14 +42,14 @@ struct ProgressHomeView: View {
 
             if let routine = routineManager.routineForThatDay(day: today) {
                 ProgressView(value: progress)
-                    .tint(.green)
+                    .tint(accentColor.color)
                     .scaleEffect(x: 1, y: 2, anchor: .center)
                     .animation(.easeOut(duration: 0.3), value: progress)
 
                 HStack {
                     HStack {
                         Image(systemName: "checkmark.square.fill")
-                            .foregroundColor(.green)
+                            .foregroundColor(accentColor.color)
                         
                         Text("\(Int(progress * 100))% completed")
                             .font(.caption)
@@ -70,7 +74,11 @@ struct ProgressHomeView: View {
         .background(Color(.systemGray6))
         .cornerRadius(12)
         .padding(.horizontal)
+        .onReceive(timer) { input in
+            currentDate = input 
+        }
     }
+    
 }
 
 #Preview {

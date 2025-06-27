@@ -10,12 +10,14 @@ import Foundation
 
 
 final class CreateDayViewModel: ObservableObject {
+    @Published var taskId: UUID = UUID()
     @Published var title: String = ""
     @Published var description: String = ""
     @Published var startTime = Date()
     @Published var endTime = Date()
     @Published var showAlert: Bool = false
     @Published var textAlert: String = ""
+    @Published var updateTask: Bool = false
     
     func clear() {
         title = ""
