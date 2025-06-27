@@ -19,6 +19,7 @@ struct CreateDayView: View {
     
     @StateObject var viewModel = CreateDayViewModel()
     let day: String
+   
     
     var body: some View {
         NavigationView {
@@ -71,18 +72,23 @@ struct CreateDayView: View {
                     let formValid = viewModel.validateForm()
                     
                     if formValid == nil {
-                        let task = Task(
-                            id: viewModel.taskId,
-                            title: viewModel.title,
-                            description: viewModel.description,
-                            startHour: viewModel.startTime,
-                            endHour: viewModel.endTime
-                        )
-                                                
                         if viewModel.updateTask {
+                            let task = Task(
+                                id: viewModel.taskId,
+                                title: viewModel.title,
+                                description: viewModel.description,
+                                startHour: viewModel.startTime,
+                                endHour: viewModel.endTime
+                            )
                             routineManager.updateTask(updatedTask: task, day: day)
                             viewModel.updateTask = false
                         } else {
+                            let task = Task(
+                                title: viewModel.title,
+                                description: viewModel.description,
+                                startHour: viewModel.startTime,
+                                endHour: viewModel.endTime
+                            )
                             routineManager.addTaskToRoutine(task: task, day: day)
                         }
                         

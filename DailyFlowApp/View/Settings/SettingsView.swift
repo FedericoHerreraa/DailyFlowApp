@@ -18,27 +18,46 @@ struct SettingsView: View {
         NavigationStack {
             VStack {
                 List {
-                    Section(header: Text("Select language")) {
-                        Picker("Select language", selection: $lenguage) {
-                            Text("Spanish").tag("es")
-                            Text("English").tag("en")
+                    if searchText.isEmpty || "language".contains(searchText.lowercased()) {
+                        Section(header: Text("Select language")) {
+                            HStack {
+                                Image(systemName: "book")
+                                Picker("Select language", selection: $lenguage) {
+                                    Text("Spanish").tag("es")
+                                    Text("English").tag("en")
+                                }
+                            }
                         }
                     }
                     
-                    Section(header: Text("Select mode")) {
-                        Text("Light")
-                        Text("Dark")
+                    if searchText.isEmpty || "mode".contains(searchText.lowercased()) {
+                        Section(header: Text("Select mode")) {
+                            HStack {
+                                Image(systemName: "sun.min")
+                                Text("Light")
+                            }
+                            
+                            HStack {
+                                Image(systemName: "moon")
+                                Text("Dark")
+                            }
+                        }
                     }
                     
-                    Section(header: Text("Select accent color")) {
-                        Picker("Accent Color", selection: $accentColor.colorName) {
-                            ForEach(colorOptions, id: \.self) { name in
-                                HStack {
-                                    Circle()
-                                        .fill(colorFrom(name))
-                                        .frame(width: 20, height: 20)
-                                    Text(name.capitalized)
-                                }.tag(name)
+                    if searchText.isEmpty || "accent color".contains(searchText.lowercased()) {
+                        Section(header: Text("Select accent color")) {
+                            HStack {
+                                Image(systemName: "paintpalette")
+                                Picker("Accent Color", selection: $accentColor.colorName) {
+                                    ForEach(colorOptions, id: \.self) { name in
+                                        HStack {
+                                            Circle()
+                                                .fill(colorFrom(name))
+                                                .frame(width: 20, height: 20)
+                                            Text(name.capitalized)
+                                        }.tag(name)
+                                    }
+                                }
                             }
                         }
                     }
@@ -46,12 +65,6 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .searchable(text: $searchText, prompt: "Search settings")
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("Welcome back")
-                        .foregroundColor(.black.opacity(0.6))
-                }
-            }
         }
     }
 
@@ -68,4 +81,5 @@ struct SettingsView: View {
 
 #Preview {
     SettingsView()
+        .environmentObject(AccentColor())
 }

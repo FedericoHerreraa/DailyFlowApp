@@ -13,8 +13,8 @@ final class CreateDayViewModel: ObservableObject {
     @Published var taskId: UUID = UUID()
     @Published var title: String = ""
     @Published var description: String = ""
-    @Published var startTime = Date()
-    @Published var endTime = Date()
+    @Published var startTime: Date = Date()
+    @Published var endTime: Date = Date()
     @Published var showAlert: Bool = false
     @Published var textAlert: String = ""
     @Published var updateTask: Bool = false

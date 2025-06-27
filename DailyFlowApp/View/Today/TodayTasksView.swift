@@ -113,6 +113,7 @@ struct TaskView: View {
             .frame(height: calculateHeight(start: task.startHour, end: task.endHour))
             .frame(minHeight: 40)
             .padding()
+            .padding(.vertical, 10)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 LinearGradient(

@@ -34,7 +34,7 @@ struct DailySummaryView: View {
             
             if let routine = routineManager.todaysRoutine() {
                 HStack(spacing: 15) {
-                    HStack {
+                    HStack(alignment: .center) {
                         Image(systemName: "list.bullet.clipboard")
                         Text("\(routine.tasks.count) task\(routine.tasks.count == 1 ? "" : "s") for today")
                             .font(.headline)
@@ -43,7 +43,7 @@ struct DailySummaryView: View {
                     
                     if let firstTask = routine.tasks.first,
                        let lastTask = routine.tasks.last {
-                            HStack {
+                            HStack(alignment: .center) {
                                 Image(systemName: "clock")
                                 Text("\(formatted(firstTask.startHour)) - \(formatted(lastTask.endHour))")
                                     .font(.headline)
