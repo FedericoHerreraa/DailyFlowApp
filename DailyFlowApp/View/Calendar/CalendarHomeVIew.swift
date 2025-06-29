@@ -18,7 +18,7 @@ struct CalendarHomeView: View {
     }
     
     var body: some View {
-        HStack(spacing: 7) {
+        HStack(spacing: 8) {
             ForEach(routineManager.weekdays, id: \.self) { day in
                 CalendarDayView(day: day)
             }

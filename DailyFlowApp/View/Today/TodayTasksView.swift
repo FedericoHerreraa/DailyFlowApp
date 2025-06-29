@@ -84,6 +84,7 @@ struct TodayTasksView: View {
 
 
 struct TaskView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var accentColor: AccentColor
     let task: Task
     
@@ -91,7 +92,7 @@ struct TaskView: View {
         VStack(alignment: .leading) {
             HStack(alignment: .top, spacing: 12) {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.black)
+                    .fill(colorScheme == .dark ? Color.white : Color.black)
                     .frame(width: 4)
                     .frame(minHeight: 70)
                 
@@ -102,11 +103,11 @@ struct TaskView: View {
                     
                     Text(task.taskDescription)
                         .font(.headline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .gray)
                     
                     Text("\(formattedHour(task.startHour)) - \(formattedHour(task.endHour))")
                         .font(.headline)
-                        .foregroundColor(.black.opacity(0.8))
+                        .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.8))
                         .bold()
                 }
             }
@@ -117,7 +118,7 @@ struct TaskView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 LinearGradient(
-                    colors: [accentColor.color.opacity(0.2), accentColor.color.opacity(0.02)],
+                    colors: [accentColor.color.opacity(colorScheme == .dark ? 0.5 : 0.2), accentColor.color.opacity(colorScheme == .dark ? 0.05 : 0.02)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -172,4 +173,5 @@ struct NoRoutineView: View {
 
 #Preview {
     TodayTasksView()
+        .environmentObject(AccentColor())
 }

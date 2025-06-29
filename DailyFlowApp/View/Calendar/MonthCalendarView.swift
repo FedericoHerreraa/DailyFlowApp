@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MonthCalendarView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var accentColor: AccentColor
     let calendar = Calendar.current
     let month: Date = Date()
@@ -45,7 +46,7 @@ struct MonthCalendarView: View {
                     
                     HStack {
                         Circle()
-                            .fill(.gray.opacity(0.3))
+                            .fill(.gray.opacity(colorScheme == .dark ? 1 : 0.3))
                             .frame(width: 13, height: 13)
                         
                         Text("Without routine")
@@ -81,8 +82,8 @@ struct MonthCalendarView: View {
                 if title {
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Welcome back")
-                            .foregroundColor(.black.opacity(0.6))
-                    }                    
+                            .foregroundColor(colorScheme == .dark ? .white.opacity(0.6) : .black.opacity(0.6))
+                    }
                 }
             }
             

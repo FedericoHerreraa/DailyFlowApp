@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State var showCalendarSheet = false
     
     var body: some View {
@@ -35,7 +36,7 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "calendar")
                             .resizable()
-                            .foregroundColor(.black.opacity(0.8))
+                            .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.8))
                             .scaledToFit()
                             .frame(height: 25)
                     }
@@ -47,7 +48,7 @@ struct HomeView: View {
                     } label: {
                         Image(systemName: "person.crop.circle")
                             .resizable()
-                            .foregroundColor(.black.opacity(0.8))
+                            .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.8))
                             .scaledToFit()
                             .frame(height: 25)
                     }
@@ -55,7 +56,7 @@ struct HomeView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Welcome back")
-                        .foregroundColor(.black.opacity(0.6))
+                        .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.6))
                 }
             }
         }

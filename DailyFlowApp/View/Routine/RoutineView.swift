@@ -10,6 +10,7 @@ import SwiftData
 
 
 struct RoutineView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
@@ -37,7 +38,7 @@ struct RoutineView: View {
                             
                             Text("With routine")
                                 .font(.subheadline)
-                                .foregroundColor(.black)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .padding(.leading, 2)
                             
                             Image(systemName: viewModel.filterByCreated ? "minus" : "plus")
@@ -67,7 +68,7 @@ struct RoutineView: View {
                             
                             Text("Without routine")
                                 .font(.subheadline)
-                                .foregroundColor(.black)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .padding(.leading, 2)
                             
                             Image(systemName: viewModel.filterByNoCreated ? "minus" : "plus")
@@ -104,7 +105,7 @@ struct RoutineView: View {
                     } label: {
                         Image(systemName: "calendar")
                             .resizable()
-                            .foregroundColor(.black.opacity(0.8))
+                            .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.8))
                             .scaledToFit()
                             .frame(height: 25)
                     }
@@ -112,7 +113,7 @@ struct RoutineView: View {
                 
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Welcome back")
-                        .foregroundColor(.black.opacity(0.6))
+                        .foregroundColor(colorScheme == .dark ? .white.opacity(0.6) : .black.opacity(0.6))
                 }
             }
         }

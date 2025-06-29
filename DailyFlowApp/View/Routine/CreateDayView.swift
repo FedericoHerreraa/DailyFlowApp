@@ -111,6 +111,7 @@ struct CreateDayView: View {
 
 
 struct RoutineCreatedView: View {
+    @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var accentColor: AccentColor
     @StateObject var viewModel = CreateDayViewModel()
     let task: Task
@@ -120,7 +121,7 @@ struct RoutineCreatedView: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text("\(viewModel.formattedHour(task.startHour)) - \(viewModel.formattedHour(task.endHour))")
                     .font(.subheadline)
-                    .foregroundColor(.black)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
                 
                 Text(task.title)
                     .font(.headline)
@@ -136,12 +137,12 @@ struct RoutineCreatedView: View {
 
             }
             .padding(10)
-            .background(Color(.systemGray6))
+            .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color(.systemGray6))
             .cornerRadius(8)
             
             Spacer()
             
-            VStack(spacing: 4) {
+            VStack(spacing: 6) {
                 Image(systemName: "arrow.backward.circle.fill")
                     .resizable()
                     .scaledToFit()
@@ -150,7 +151,7 @@ struct RoutineCreatedView: View {
 
                 Text("Swipe to delete")
                     .font(.caption2)
-                    .foregroundColor(.gray)
+                    .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .gray)
                     .multilineTextAlignment(.center)
             }
             .padding(.trailing, 4)

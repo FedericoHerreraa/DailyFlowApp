@@ -17,6 +17,7 @@ struct RoutineManager {
     let weekdays: [String] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     
     func addTaskToRoutine(task: Task, day: String) {
+        scheduleNotification(for: task)
         if let routine = routines.first(where: { $0.day == day }) {
             routine.tasks.append(task)
         } else {
@@ -26,6 +27,8 @@ struct RoutineManager {
     }
     
     func updateTask(updatedTask: Task, day: String) {
+        cancelNotification(for: updatedTask)
+        scheduleNotification(for: updatedTask)
         if let routine = routines.first(where: { $0.day == day }) {
             if let existingTask = routine.tasks.first(where: { $0.id == updatedTask.id }) {
                 existingTask.title = updatedTask.title
@@ -49,6 +52,7 @@ struct RoutineManager {
     }
     
     func deleteTask(_ task: Task, from day: String) {
+        cancelNotification(for: task)
         guard let routine = routineForThatDay(day: day) else { return }
         if let index = routine.tasks.firstIndex(where: { $0.id == task.id }) {
             routine.tasks.remove(at: index)
@@ -68,8 +72,11 @@ struct RoutineManager {
         content.body = "Tarea: \(task.title)"
         content.sound = .default
 
-        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: task.startHour)
-        
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
+
+        let triggerDate = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: task.startHour)
+
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
 
         let request = UNNotificationRequest(
@@ -81,6 +88,8 @@ struct RoutineManager {
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("Error scheduling notification: \(error.localizedDescription)")
+            } else {
+                print("✅ Notificación agendada para \(task.startHour)")
             }
         }
     }
