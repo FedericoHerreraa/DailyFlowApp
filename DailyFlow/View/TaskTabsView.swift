@@ -29,13 +29,7 @@ struct TaskTabsView: View {
                         .fontDesign(.rounded)
                 }
                 .tag(1)
-            
-            MonthCalendarView()
-                .tabItem {
-                    Label("Calendar", systemImage: "calendar")
-                        .fontDesign(.rounded)
-                }
-                .tag(2)
+
             
             SettingsView()
                 .tabItem {
@@ -51,4 +45,5 @@ struct TaskTabsView: View {
 
 #Preview {
     TaskTabsView()
+        .environmentObject(AccentColor())
 }

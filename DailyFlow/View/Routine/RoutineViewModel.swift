@@ -12,4 +12,5 @@ final class RoutineViewModel: ObservableObject {
     @Published var showCalendarSheet: Bool = false
     @Published var filterByCreated: Bool = false
     @Published var filterByNoCreated: Bool = false
+    @Published var searchText: String = ""
 }

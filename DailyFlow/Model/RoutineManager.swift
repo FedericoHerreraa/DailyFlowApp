@@ -67,6 +67,13 @@ struct RoutineManager {
     
     
     func scheduleNotification(for task: Task) {
+        let notificationsEnabled = UserDefaults.standard.bool(forKey: "notificationsEnabled")
+        print(notificationsEnabled)
+        guard notificationsEnabled else {
+            print("🔕 Notificaciones desactivadas")
+            return
+        }
+        
         let content = UNMutableNotificationContent()
         content.title = "¡Es hora de empezar!"
         content.body = "Tarea: \(task.title)"

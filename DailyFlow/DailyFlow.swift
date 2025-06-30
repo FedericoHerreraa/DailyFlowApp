@@ -13,11 +13,14 @@ import UserNotifications
 @main
 struct DailyFlowApp: App {
     @StateObject var accentColor = AccentColor()
+    @AppStorage("notificationsEnabled") var notificationsEnabled: Bool = false
+    @AppStorage("appColorScheme") private var appColorScheme: String = "system"
     
     var body: some Scene {
         WindowGroup {
             TaskTabsView()
                 .environmentObject(accentColor)
+                .preferredColorScheme(mapColorScheme(appColorScheme))
                 .onAppear {
                     requestNotificationPermissions()
                 }
@@ -31,7 +34,16 @@ struct DailyFlowApp: App {
                 print("Error requesting notifications: \(error.localizedDescription)")
             } else {
                 print("Permission granted: \(granted)")
+                notificationsEnabled = granted
             }
+        }
+    }
+    
+    func mapColorScheme(_ scheme: String) -> ColorScheme? {
+        switch scheme {
+            case "light": return .light
+            case "dark": return .dark
+            default: return nil
         }
     }
 }

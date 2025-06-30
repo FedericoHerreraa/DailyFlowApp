@@ -53,18 +53,6 @@ struct HomeView: View {
                     }
                 }
                 
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        print("hola")
-                    } label: {
-                        Image(systemName: "person.crop.circle")
-                            .resizable()
-                            .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.8))
-                            .scaledToFit()
-                            .frame(height: 25)
-                    }
-                }
-                
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Welcome back")
                         .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.6))
@@ -74,6 +62,7 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showCalendarSheet) {
             MonthSheetCalendarView(showCalendarSheet: $showCalendarSheet)
+                .presentationDetents([.medium])
         }
     }
 }
@@ -83,4 +72,5 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
+        .environmentObject(AccentColor())
 }

@@ -6,11 +6,13 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     @EnvironmentObject private var accentColor: AccentColor
-    @State var searchText: String = ""
-    @State var lenguage: String = "es"
+    @AppStorage("notificationsEnabled") var notificationsEnabled: Bool = true
+    @AppStorage("appColorScheme") private var appColorScheme: String = "system"
+    @StateObject private var viewModel = SettingsViewModel()
     
     let colorOptions = ["green", "blue", "pink", "orange"]
 
@@ -18,11 +20,11 @@ struct SettingsView: View {
         NavigationStack {
             VStack {
                 List {
-                    if searchText.isEmpty || "language".contains(searchText.lowercased()) {
+                    if viewModel.searchText.isEmpty || "language".contains(viewModel.searchText.lowercased()) {
                         Section(header: Text("Select language")) {
                             HStack {
                                 Image(systemName: "book")
-                                Picker("Select language", selection: $lenguage) {
+                                Picker("Select language", selection: $viewModel.lenguage) {
                                     Text("Spanish").tag("es")
                                     Text("English").tag("en")
                                 }
@@ -31,23 +33,67 @@ struct SettingsView: View {
                         }
                     }
                     
-                    if searchText.isEmpty || "mode".contains(searchText.lowercased()) {
+                    if viewModel.searchText.isEmpty || "mode".contains(viewModel.searchText.lowercased()) {
                         Section(header: Text("Select mode")) {
                             HStack {
                                 Image(systemName: "sun.min")
                                 Text("Light")
                                     .fontDesign(.rounded)
+                                Spacer()
+                                if appColorScheme == "light" {
+                                    Image(systemName: "checkmark")
+                                }
                             }
-                            
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                appColorScheme = "light"
+                            }
+
                             HStack {
                                 Image(systemName: "moon")
                                 Text("Dark")
                                     .fontDesign(.rounded)
+                                Spacer()
+                                if appColorScheme == "dark" {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                appColorScheme = "dark"
+                            }
+
+                            HStack {
+                                Image(systemName: "gear")
+                                Text("Use system")
+                                    .fontDesign(.rounded)
+                                Spacer()
+                                if appColorScheme == "system" {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                appColorScheme = "system"
                             }
                         }
                     }
                     
-                    if searchText.isEmpty || "accent color".contains(searchText.lowercased()) {
+                    Section(header: Text("Notifications")) {
+                        Toggle("Enable notifications", isOn: $notificationsEnabled)
+                            .onChange(of: notificationsEnabled) {
+                                print("🔁 Cambió toggle a: \(notificationsEnabled)")
+                                
+                                if notificationsEnabled {
+                                    requestNotificationPermissions()
+                                } else {
+                                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                                    print("🔕 Notificaciones desactivadas")
+                                }
+                            }
+                    }
+                    
+                    if viewModel.searchText.isEmpty || "accent color".contains(viewModel.searchText.lowercased()) {
                         Section(header: Text("Select accent color")) {
                             HStack {
                                 Image(systemName: "paintpalette")
@@ -69,7 +115,45 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .searchable(text: $searchText, prompt: "Search settings")
+            .searchable(text: $viewModel.searchText, prompt: "Search settings")
+        }
+        .alert("Enable Notifications", isPresented: $viewModel.showSettingsAlert) {
+            Button("Go to Settings") {
+                if let appSettings = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(appSettings)
+                }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("To enable notifications, allow them in Settings.")
+        }
+    }
+    
+    private func requestNotificationPermissions() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                    DispatchQueue.main.async {
+                        notificationsEnabled = granted
+                        if granted {
+                            print("✅ Permiso concedido")
+                        } else {
+                            print("❌ Usuario rechazó")
+                        }
+                    }
+                }
+            case .denied:
+                DispatchQueue.main.async {
+                    viewModel.showSettingsAlert = true
+                }
+            case .authorized, .provisional, .ephemeral:
+                DispatchQueue.main.async {
+                    notificationsEnabled = true
+                }
+            @unknown default:
+                break
+            }
         }
     }
 

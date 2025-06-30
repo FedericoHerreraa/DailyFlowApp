@@ -89,17 +89,22 @@ struct RoutineView: View {
                     Spacer()
                 }
                 .padding(.horizontal)
-                .padding(.top, 10)
+                
+                let filteredDays = routineManager.weekdays.filter {
+                    viewModel.searchText.isEmpty || $0.lowercased().contains(viewModel.searchText.lowercased())
+                }
                 
                 List {
-                    ForEach(routineManager.weekdays, id: \.self) { day in
+                    ForEach(filteredDays, id: \.self) { day in
                         RoutineItemView(day: day, routineManager: routineManager, viewModel: viewModel)
                     }
                 }
                 .listStyle(.plain)
                 .padding(.top, 20)
+                
             }
             .navigationTitle("Create your routine")
+            .searchable(text: $viewModel.searchText, prompt: "Search by day")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -122,6 +127,7 @@ struct RoutineView: View {
         }
         .sheet(isPresented: $viewModel.showCalendarSheet) {
             MonthSheetCalendarView(showCalendarSheet: $viewModel.showCalendarSheet)
+                .presentationDetents([.medium])
         }
     }
 }
@@ -159,4 +165,5 @@ struct RoutineItemView: View {
 
 #Preview {
     RoutineView()
+        .environmentObject(AccentColor())
 }
