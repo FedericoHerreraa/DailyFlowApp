@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
+    @State private var showSheet = false
     @Environment(\.colorScheme) var colorScheme
     @State var showCalendarSheet = false
     
@@ -27,6 +29,15 @@ struct HomeView: View {
                     .padding(.top, 20)
                 
                 Spacer()
+            }
+            .onAppear {
+                if !hasSeenOnboarding {
+                    showSheet = true
+                    hasSeenOnboarding = true
+                }
+            }
+            .sheet(isPresented: $showSheet) {
+                OnboardingView(isOnboardingActive: $showSheet)
             }
             .navigationTitle("Daily Flow")
             .toolbar {
@@ -57,6 +68,7 @@ struct HomeView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Welcome back")
                         .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.6))
+                        .fontDesign(.rounded)
                 }
             }
         }

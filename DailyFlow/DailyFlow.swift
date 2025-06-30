@@ -11,7 +11,7 @@ import UserNotifications
 
 
 @main
-struct DailyFlowAppApp: App {
+struct DailyFlowApp: App {
     @StateObject var accentColor = AccentColor()
     
     var body: some Scene {

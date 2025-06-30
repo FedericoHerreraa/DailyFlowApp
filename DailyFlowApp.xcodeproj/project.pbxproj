@@ -11,9 +11,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		532073382E0ABD7A00415989 /* DailyFlowApp */ = {
+		532073382E0ABD7A00415989 /* DailyFlow */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = DailyFlowApp;
+			path = DailyFlow;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		5320732D2E0ABD7A00415989 = {
 			isa = PBXGroup;
 			children = (
-				532073382E0ABD7A00415989 /* DailyFlowApp */,
+				532073382E0ABD7A00415989 /* DailyFlow */,
 				532073372E0ABD7A00415989 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,7 +61,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				532073382E0ABD7A00415989 /* DailyFlowApp */,
+				532073382E0ABD7A00415989 /* DailyFlow */,
 			);
 			name = DailyFlowApp;
 			packageProductDependencies = (

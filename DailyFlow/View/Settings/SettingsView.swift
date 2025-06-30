@@ -26,6 +26,7 @@ struct SettingsView: View {
                                     Text("Spanish").tag("es")
                                     Text("English").tag("en")
                                 }
+                                .fontDesign(.rounded)
                             }
                         }
                     }
@@ -35,11 +36,13 @@ struct SettingsView: View {
                             HStack {
                                 Image(systemName: "sun.min")
                                 Text("Light")
+                                    .fontDesign(.rounded)
                             }
                             
                             HStack {
                                 Image(systemName: "moon")
                                 Text("Dark")
+                                    .fontDesign(.rounded)
                             }
                         }
                     }
@@ -54,7 +57,9 @@ struct SettingsView: View {
                                             Circle()
                                                 .fill(colorFrom(name))
                                                 .frame(width: 20, height: 20)
+                                            
                                             Text(name.capitalized)
+                                                .fontDesign(.rounded)
                                         }.tag(name)
                                     }
                                 }

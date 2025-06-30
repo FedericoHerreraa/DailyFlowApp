@@ -47,6 +47,7 @@ struct CalendarDayView: View {
             Text(day.prefix(1).uppercased())
                 .font(.headline)
                 .bold()
+                .fontDesign(.rounded)
         }
         .frame(width: 15)
         .padding(.horizontal, 15)

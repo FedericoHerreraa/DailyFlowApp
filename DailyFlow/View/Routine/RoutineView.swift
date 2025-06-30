@@ -40,6 +40,7 @@ struct RoutineView: View {
                                 .font(.subheadline)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .padding(.leading, 2)
+                                .fontDesign(.rounded)
                             
                             Image(systemName: viewModel.filterByCreated ? "minus" : "plus")
                                 .foregroundColor(accentColor.color)
@@ -70,6 +71,7 @@ struct RoutineView: View {
                                 .font(.subheadline)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .padding(.leading, 2)
+                                .fontDesign(.rounded)
                             
                             Image(systemName: viewModel.filterByNoCreated ? "minus" : "plus")
                                 .foregroundColor(.gray)
@@ -114,6 +116,7 @@ struct RoutineView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Welcome back")
                         .foregroundColor(colorScheme == .dark ? .white.opacity(0.6) : .black.opacity(0.6))
+                        .fontDesign(.rounded)
                 }
             }
         }

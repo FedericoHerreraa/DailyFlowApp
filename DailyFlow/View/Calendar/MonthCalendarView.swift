@@ -42,6 +42,7 @@ struct MonthCalendarView: View {
                             .frame(width: 13, height: 13)
                         
                         Text("With routine")
+                            .fontDesign(.rounded)
                     }
                     
                     HStack {
@@ -50,6 +51,7 @@ struct MonthCalendarView: View {
                             .frame(width: 13, height: 13)
                         
                         Text("Without routine")
+                            .fontDesign(.rounded)
                     }
                     
                     Spacer()
@@ -83,6 +85,7 @@ struct MonthCalendarView: View {
                     ToolbarItem(placement: .topBarLeading) {
                         Text("Welcome back")
                             .foregroundColor(colorScheme == .dark ? .white.opacity(0.6) : .black.opacity(0.6))
+                            .fontDesign(.rounded)
                     }
                 }
             }

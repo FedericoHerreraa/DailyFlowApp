@@ -31,6 +31,7 @@ struct DailySummaryView: View {
                     .font(.title3)
                     .bold()
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .fontDesign(.rounded)
             }
             
             if let routine = routineManager.todaysRoutine() {
@@ -40,6 +41,7 @@ struct DailySummaryView: View {
                         Text("\(routine.tasks.count) task\(routine.tasks.count == 1 ? "" : "s") for today")
                             .font(.headline)
                             .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
+                            .fontDesign(.rounded)
                     }
                     
                     if let firstTask = routine.tasks.first,
@@ -49,6 +51,7 @@ struct DailySummaryView: View {
                                 Text("\(formatted(firstTask.startHour)) - \(formatted(lastTask.endHour))")
                                     .font(.headline)
                                     .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
+                                    .fontDesign(.rounded)
                             }
                     }
                 }
@@ -57,6 +60,7 @@ struct DailySummaryView: View {
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .fontDesign(.rounded)
             }
         }
         .frame(maxWidth: .infinity)

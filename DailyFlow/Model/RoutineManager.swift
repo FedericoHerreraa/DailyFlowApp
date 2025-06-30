@@ -71,11 +71,10 @@ struct RoutineManager {
         content.title = "¡Es hora de empezar!"
         content.body = "Tarea: \(task.title)"
         content.sound = .default
-
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone.current
-
-        let triggerDate = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: task.startHour)
+        
+        var triggerDate = DateComponents()
+        triggerDate.hour = Calendar.current.component(.hour, from: task.startHour)
+        triggerDate.minute = Calendar.current.component(.minute, from: task.startHour)
 
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
 
@@ -87,9 +86,9 @@ struct RoutineManager {
 
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
-                print("Error scheduling notification: \(error.localizedDescription)")
+                print("❌ Error al agendar: \(error.localizedDescription)")
             } else {
-                print("✅ Notificación agendada para \(task.startHour)")
+                print("✅ Notificación agendada para: \(triggerDate.hour ?? 0):\(triggerDate.minute ?? 0)")
             }
         }
     }

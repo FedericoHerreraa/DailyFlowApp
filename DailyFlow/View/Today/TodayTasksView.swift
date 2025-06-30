@@ -25,6 +25,7 @@ struct TodayTasksView: View {
                 Text("Today tasks")
                     .font(.title2)
                     .bold()
+                    .fontDesign(.rounded)
                 
                 Spacer()
                 
@@ -63,6 +64,7 @@ struct TodayTasksView: View {
                                 } label: {
                                     Text("Done")
                                         .foregroundColor(accentColor.color)
+                                        .fontDesign(.rounded)
                                 }
                             }
                         }
@@ -100,15 +102,18 @@ struct TaskView: View {
                     Text(task.title)
                         .font(.title3)
                         .bold()
+                        .fontDesign(.rounded)
                     
                     Text(task.taskDescription)
                         .font(.headline)
-                        .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .gray)
+                        .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
+                        .fontDesign(.rounded)
                     
                     Text("\(formattedHour(task.startHour)) - \(formattedHour(task.endHour))")
                         .font(.headline)
                         .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.8))
                         .bold()
+                        .fontDesign(.rounded)
                 }
             }
             .frame(height: calculateHeight(start: task.startHour, end: task.endHour))
@@ -118,7 +123,7 @@ struct TaskView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 LinearGradient(
-                    colors: [accentColor.color.opacity(colorScheme == .dark ? 0.5 : 0.2), accentColor.color.opacity(colorScheme == .dark ? 0.05 : 0.02)],
+                    colors: [accentColor.color.opacity(colorScheme == .dark ? 0.5 : 0.3), accentColor.color.opacity(colorScheme == .dark ? 0.05 : 0.05)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -159,12 +164,14 @@ struct NoRoutineView: View {
             Text("No tasks for today")
                 .font(.title3)
                 .bold()
+                .fontDesign(.rounded)
             
             Text("Tap the + button to start planning your day.")
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
+                .fontDesign(.rounded)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding(.top, 50)

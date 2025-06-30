@@ -21,6 +21,7 @@ struct MonthSheetCalendarView: View {
                                 Text("Done")
                                     .bold()
                                     .foregroundColor(accentColor.color)
+                                    .fontDesign(.rounded)
                             }
                         }
                     }

@@ -100,6 +100,7 @@ struct CreateDayView: View {
                 } label: {
                     Text(viewModel.updateTask ? "Update task" : "Save task")
                         .foregroundColor(accentColor.color)
+                        .fontDesign(.rounded)
                 }
             }
         }
@@ -122,17 +123,20 @@ struct RoutineCreatedView: View {
                 Text("\(viewModel.formattedHour(task.startHour)) - \(viewModel.formattedHour(task.endHour))")
                     .font(.subheadline)
                     .foregroundColor(colorScheme == .dark ? .white : .black)
+                    .fontDesign(.rounded)
                 
                 Text(task.title)
                     .font(.headline)
                     .bold()
                     .foregroundColor(.primary)
+                    .fontDesign(.rounded)
 
                 if !task.taskDescription.isEmpty {
                     Text(task.taskDescription)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .lineLimit(2)
+                        .fontDesign(.rounded)
                 }
 
             }
@@ -153,6 +157,7 @@ struct RoutineCreatedView: View {
                     .font(.caption2)
                     .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .gray)
                     .multilineTextAlignment(.center)
+                    .fontDesign(.rounded)
             }
             .padding(.trailing, 4)
         }

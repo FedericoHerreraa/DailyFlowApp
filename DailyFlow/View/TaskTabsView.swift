@@ -19,24 +19,28 @@ struct TaskTabsView: View {
             HomeView()
                 .tabItem {
                     Label("Home", systemImage: "house")
+                        .fontDesign(.rounded)
                 }
                 .tag(0)
             
             RoutineView()
                 .tabItem {
                     Label("Routines", systemImage: "list.bullet.rectangle")
+                        .fontDesign(.rounded)
                 }
                 .tag(1)
             
             MonthCalendarView()
                 .tabItem {
                     Label("Calendar", systemImage: "calendar")
+                        .fontDesign(.rounded)
                 }
                 .tag(2)
             
             SettingsView()
                 .tabItem {
                     Label("Settings", systemImage: "gear")
+                        .fontDesign(.rounded)
                 }
                 .tag(3)
             
