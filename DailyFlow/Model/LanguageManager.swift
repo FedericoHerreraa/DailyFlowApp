@@ -18,7 +18,7 @@ final class LanguageManager: ObservableObject {
     @Published var spanishWeekdays: [String] = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
 
     init() {
-        self.selectedLanguage = UserDefaults.standard.string(forKey: "selectedLanguage") ?? "es"
+        self.selectedLanguage = UserDefaults.standard.string(forKey: "selectedLanguage") ?? "en"
     }
 
     func t(_ key: String) -> String {

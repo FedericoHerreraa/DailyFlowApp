@@ -12,9 +12,24 @@ final class AccentColor: ObservableObject {
             UserDefaults.standard.set(colorName, forKey: "accentColor")
         }
     }
+    
+    let language = UserDefaults.standard.string(forKey: "selectedLanguage")
 
     var color: Color {
-        switch colorName {
+        let normalizedColorName: String
+        if language == "es" {
+            switch colorName {
+                case "azul": normalizedColorName = "blue"
+                case "verde": normalizedColorName = "green"
+                case "rosa": normalizedColorName = "pink"
+                case "naranja": normalizedColorName = "orange"
+                default: normalizedColorName = colorName
+            }
+        } else {
+            normalizedColorName = colorName
+        }
+
+        switch normalizedColorName {
             case "blue": return .blue
             case "green": return .green
             case "pink": return .pink
@@ -24,6 +39,6 @@ final class AccentColor: ObservableObject {
     }
 
     init() {
-        self.colorName = UserDefaults.standard.string(forKey: "accentColor") ?? "green"
+        self.colorName = UserDefaults.standard.string(forKey: "accentColor") ?? language == "es" ? "verde" : "green"
     }
 }
