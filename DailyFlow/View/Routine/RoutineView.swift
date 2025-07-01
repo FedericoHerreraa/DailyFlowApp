@@ -10,6 +10,7 @@ import SwiftData
 
 
 struct RoutineView: View {
+    @EnvironmentObject private var language: LanguageManager
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
@@ -36,7 +37,7 @@ struct RoutineView: View {
                                 .fill(accentColor.color)
                                 .frame(width: 13, height: 13)
                             
-                            Text("With routine")
+                            Text(language.t("with_routine"))
                                 .font(.subheadline)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .padding(.leading, 2)
@@ -67,7 +68,7 @@ struct RoutineView: View {
                                 .fill(Color.gray)
                                 .frame(width: 13, height: 13)
                             
-                            Text("Without routine")
+                            Text(language.t("without_routine"))
                                 .font(.subheadline)
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .padding(.leading, 2)
@@ -90,7 +91,9 @@ struct RoutineView: View {
                 }
                 .padding(.horizontal)
                 
-                let filteredDays = routineManager.weekdays.filter {
+                let weekdays = language.t("home").contains("Home") ? language.englishWeekdays : language.spanishWeekdays
+                
+                let filteredDays = weekdays.filter {
                     viewModel.searchText.isEmpty || $0.lowercased().contains(viewModel.searchText.lowercased())
                 }
                 
@@ -103,8 +106,8 @@ struct RoutineView: View {
                 .padding(.top, 20)
                 
             }
-            .navigationTitle("Create your routine")
-            .searchable(text: $viewModel.searchText, prompt: "Search by day")
+            .navigationTitle(language.t("create_your_routine"))
+            .searchable(text: $viewModel.searchText, prompt: language.t("search_input"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
@@ -119,7 +122,7 @@ struct RoutineView: View {
                 }
                 
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("Welcome back")
+                    Text(language.t("welcome_back"))
                         .foregroundColor(colorScheme == .dark ? .white.opacity(0.6) : .black.opacity(0.6))
                         .fontDesign(.rounded)
                 }
@@ -134,6 +137,7 @@ struct RoutineView: View {
 
 
 struct RoutineItemView: View {
+    @EnvironmentObject private var language: LanguageManager
     @EnvironmentObject private var accentColor: AccentColor
     let day: String
     let routineManager: RoutineManager
@@ -155,7 +159,7 @@ struct RoutineItemView: View {
                         Text(day)
                             .font(.title3)
                     }
-                    Text(routineManager.routineForThatDay(day: day) != nil ? "You already have a routine" : "You don't have a routine yet")
+                    Text(routineManager.routineForThatDay(day: day) != nil ? language.t("have_routine") : language.t("do_not_have_routine"))
                         .foregroundColor(.secondary)
                 }
             }

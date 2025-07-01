@@ -13,4 +13,5 @@ final class SettingsViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var showSettingsAlert = false
     @Published var lenguage: String = "es"
+    @Published var colorOptions = ["green", "blue", "pink", "orange"]
 }

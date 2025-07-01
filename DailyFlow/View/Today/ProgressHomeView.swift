@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct ProgressHomeView: View {
+    @EnvironmentObject private var languageManager: LanguageManager
     @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
@@ -37,7 +38,7 @@ struct ProgressHomeView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Day Progress")
+            Text(languageManager.t("progress_title"))
                 .font(.title3)
 
             if let routine = routineManager.routineForThatDay(day: today) {
@@ -51,19 +52,19 @@ struct ProgressHomeView: View {
                         Image(systemName: "checkmark.square.fill")
                             .foregroundColor(accentColor.color)
                         
-                        Text("\(Int(progress * 100))% completed")
+                        Text("\(Int(progress * 100))% \(languageManager.t("progress_title").contains("Progreso") ? "completado" : "completed")")
                             .font(.caption)
                             .foregroundColor(.gray)
                     }
 
                     Spacer()
 
-                    Text("\(routineManager.completedTasks(day: today))/\(routine.tasks.count) tasks")
+                    Text("\(routineManager.completedTasks(day: today))/\(routine.tasks.count) \(languageManager.t("progress_title").contains("Progreso") ? "tareas" : "tasks")")
                         .font(.caption2)
                         .foregroundColor(.gray)
                 }
             } else {
-                Text("There's nothing set yet, do it now!")
+                Text(languageManager.t("no_progress_description"))
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)

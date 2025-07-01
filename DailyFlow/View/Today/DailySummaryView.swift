@@ -10,6 +10,7 @@ import SwiftData
 
 
 struct DailySummaryView: View {
+    @EnvironmentObject private var language: LanguageManager
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
@@ -27,7 +28,7 @@ struct DailySummaryView: View {
                     .frame(height: 25)
                     .foregroundColor(Color(red: 1.0, green: 0.87, blue: 0.77))
                 
-                Text("Good \(greetingTime())")
+                Text("\(language.t("home_summary_title")) \(greetingTime())")
                     .font(.title3)
                     .bold()
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -38,7 +39,7 @@ struct DailySummaryView: View {
                 HStack(spacing: 15) {
                     HStack(alignment: .center) {
                         Image(systemName: "list.bullet.clipboard")
-                        Text("\(routine.tasks.count) task\(routine.tasks.count == 1 ? "" : "s") for today")
+                        Text("\(routine.tasks.count) \(language.t("home_summary_title").contains("Buenos") ? "tarea\(routine.tasks.count == 1 ? "" : "s") para hoy" : "task\(routine.tasks.count == 1 ? "" : "s") for today")")
                             .font(.headline)
                             .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
                             .fontDesign(.rounded)
@@ -56,7 +57,7 @@ struct DailySummaryView: View {
                     }
                 }
             } else {
-                Text("You have no tasks for today, add them!")
+                Text(language.t("home_summary_description"))
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -73,10 +74,10 @@ struct DailySummaryView: View {
     func greetingTime() -> String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-            case 6..<12: return "morning"
-            case 12..<18: return "afternoon"
-            case 18..<22: return "evening"
-            default: return "night"
+        case 6..<12: return language.t("morning")
+            case 12..<18: return language.t("afternoon")
+            case 18..<22: return language.t("evening")
+            default: return language.t("night")
         }
     }
     

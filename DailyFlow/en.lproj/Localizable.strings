@@ -1,0 +1,62 @@
+/* 
+  Localizable.strings
+  DailyFlowApp
+
+  Created by Federico Herrera on 01/07/2025.
+  
+*/
+
+"home" = "Home";
+"routines" = "Routines";
+"settings" = "Settings";
+
+"home_summary_title" = "Good";
+"morning" = "morning";
+"afternoon" = "afternoon";
+"evening" = "evening";
+"night" = "night";
+"home_summary_description" = "You have no tasks for today, add them!";
+
+"today_task_title" = "Today tasks";
+"create_fast_routine" = "Create fast routine";
+"no_task_title" = "No tasks for today";
+"no_task_description" = "Tap the + button to start planning your day";
+"close_modal_button" = "Done";
+
+"progress_title" = "Day Progress";
+"no_progress_description" = "There's nothing set yet, do it now!";
+
+"welcome_back" = "Welcome back";
+
+"create_your_routine" = "Create your routine";
+"search_input" = "Search by day";
+"with_routine" = "With routine";
+"without_routine" = "Without routine";
+"have_routine" = "You already have a routine";
+"do_not_have_routine" = "You don't have a routine yet";
+
+"routine_for" = "Routine for";
+"delete" = "Delete";
+"edit" = "Edit";
+"update_routine" = "Update routine for";
+"create_routine" = "Create routine for";
+"title_ph" = "Enter task title";
+"description_ph" = "Enter task description";
+"from_ph" = "From";
+"to_ph" = "To";
+"create_task" = "Save task";
+"update_task" = "Update Task";
+"swipe_to_delete" = "Swipe to delete";
+
+"language" = "Language";
+"select_language" = "Select language";
+"select_mode" = "Select mode";
+"light" = "Light";
+"dark" = "Dark";
+"use_system" = "Use system";
+"notifications" = "Notifications";
+"enable_notifications" = "Enable notifications";
+"select_accent_color" = "Select accent color";
+"accent_color" = "Accent color";
+"settings" = "Settings";
+"search_settings" = "Search settings";

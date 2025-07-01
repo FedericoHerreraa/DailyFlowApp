@@ -3,6 +3,7 @@
 import SwiftUI
 
 struct TaskTabsView: View {
+    @EnvironmentObject private var language: LanguageManager
     @EnvironmentObject private var accentColor: AccentColor
     @State var tabSelected: Int = 0
     
@@ -18,14 +19,14 @@ struct TaskTabsView: View {
         TabView(selection: $tabSelected) {
             HomeView()
                 .tabItem {
-                    Label("Home", systemImage: "house")
+                    Label(language.t("home"), systemImage: "house")
                         .fontDesign(.rounded)
                 }
                 .tag(0)
             
             RoutineView()
                 .tabItem {
-                    Label("Routines", systemImage: "list.bullet.rectangle")
+                    Label(language.t("routines"), systemImage: "list.bullet.rectangle")
                         .fontDesign(.rounded)
                 }
                 .tag(1)
@@ -33,7 +34,7 @@ struct TaskTabsView: View {
             
             SettingsView()
                 .tabItem {
-                    Label("Settings", systemImage: "gear")
+                    Label(language.t("settings"), systemImage: "gear")
                         .fontDesign(.rounded)
                 }
                 .tag(3)

@@ -10,22 +10,21 @@ import UserNotifications
 
 struct SettingsView: View {
     @EnvironmentObject private var accentColor: AccentColor
+    @EnvironmentObject private var language: LanguageManager
     @AppStorage("notificationsEnabled") var notificationsEnabled: Bool = true
     @AppStorage("appColorScheme") private var appColorScheme: String = "system"
     @StateObject private var viewModel = SettingsViewModel()
     
-    let colorOptions = ["green", "blue", "pink", "orange"]
-
     var body: some View {
         NavigationStack {
             VStack {
                 List {
                     if viewModel.searchText.isEmpty || "language".contains(viewModel.searchText.lowercased()) {
-                        Section(header: Text("Select language")) {
+                        Section(header: Text(language.t("language"))) {
                             HStack {
                                 Image(systemName: "book")
-                                Picker("Select language", selection: $viewModel.lenguage) {
-                                    Text("Spanish").tag("es")
+                                Picker(language.t("select_language"), selection: $language.selectedLanguage) {
+                                    Text("Español").tag("es")
                                     Text("English").tag("en")
                                 }
                                 .fontDesign(.rounded)
@@ -34,10 +33,10 @@ struct SettingsView: View {
                     }
                     
                     if viewModel.searchText.isEmpty || "mode".contains(viewModel.searchText.lowercased()) {
-                        Section(header: Text("Select mode")) {
+                        Section(header: Text(language.t("select_mode"))) {
                             HStack {
                                 Image(systemName: "sun.min")
-                                Text("Light")
+                                Text(language.t("light"))
                                     .fontDesign(.rounded)
                                 Spacer()
                                 if appColorScheme == "light" {
@@ -51,7 +50,7 @@ struct SettingsView: View {
 
                             HStack {
                                 Image(systemName: "moon")
-                                Text("Dark")
+                                Text(language.t("dark"))
                                     .fontDesign(.rounded)
                                 Spacer()
                                 if appColorScheme == "dark" {
@@ -65,7 +64,7 @@ struct SettingsView: View {
 
                             HStack {
                                 Image(systemName: "gear")
-                                Text("Use system")
+                                Text(language.t("use_system"))
                                     .fontDesign(.rounded)
                                 Spacer()
                                 if appColorScheme == "system" {
@@ -79,26 +78,26 @@ struct SettingsView: View {
                         }
                     }
                     
-                    Section(header: Text("Notifications")) {
-                        Toggle("Enable notifications", isOn: $notificationsEnabled)
-                            .onChange(of: notificationsEnabled) {
-                                print("🔁 Cambió toggle a: \(notificationsEnabled)")
-                                
-                                if notificationsEnabled {
-                                    requestNotificationPermissions()
-                                } else {
-                                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                                    print("🔕 Notificaciones desactivadas")
+                    if viewModel.searchText.isEmpty || "notifications".contains(viewModel.searchText.lowercased()) {
+                        Section(header: Text(language.t("notifications"))) {
+                            Toggle(language.t("enable_notifications"), isOn: $notificationsEnabled)
+                                .onChange(of: notificationsEnabled) {
+                                    if notificationsEnabled {
+                                        requestNotificationPermissions()
+                                    } else {
+                                        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                                        print("🔕 Notificaciones desactivadas")
+                                    }
                                 }
-                            }
+                        }                        
                     }
                     
                     if viewModel.searchText.isEmpty || "accent color".contains(viewModel.searchText.lowercased()) {
-                        Section(header: Text("Select accent color")) {
+                        Section(header: Text(language.t("select_accent_color"))) {
                             HStack {
                                 Image(systemName: "paintpalette")
-                                Picker("Accent Color", selection: $accentColor.colorName) {
-                                    ForEach(colorOptions, id: \.self) { name in
+                                Picker(language.t("accent_color"), selection: $accentColor.colorName) {
+                                    ForEach(viewModel.colorOptions, id: \.self) { name in
                                         HStack {
                                             Circle()
                                                 .fill(colorFrom(name))
@@ -106,6 +105,7 @@ struct SettingsView: View {
                                             
                                             Text(name.capitalized)
                                                 .fontDesign(.rounded)
+                                            
                                         }.tag(name)
                                     }
                                 }
@@ -114,10 +114,10 @@ struct SettingsView: View {
                     }
                 }
             }
-            .navigationTitle("Settings")
-            .searchable(text: $viewModel.searchText, prompt: "Search settings")
+            .navigationTitle(language.t("settings"))
+            .searchable(text: $viewModel.searchText, prompt: language.t("search_settings"))
         }
-        .alert("Enable Notifications", isPresented: $viewModel.showSettingsAlert) {
+        .alert(language.t("enable_notifications"), isPresented: $viewModel.showSettingsAlert) {
             Button("Go to Settings") {
                 if let appSettings = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(appSettings)

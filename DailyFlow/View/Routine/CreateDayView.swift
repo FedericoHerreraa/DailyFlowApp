@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct CreateDayView: View {
+    @EnvironmentObject private var language: LanguageManager
     @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
@@ -28,7 +29,7 @@ struct CreateDayView: View {
                     if routine.tasks.isEmpty {
                         EmptyView()
                     } else {
-                        Section(header: Text("Routine for \(day)")) {
+                        Section(header: Text("\(language.t("routine_for")) \(day)")) {
                             List {
                                 ForEach(routine.tasks) { task in
                                     RoutineCreatedView(task: task)
@@ -36,7 +37,7 @@ struct CreateDayView: View {
                                             Button(role: .destructive) {
                                                 routineManager.deleteTask(task, from: day)
                                             } label: {
-                                                Label("Delete", systemImage: "trash")
+                                                Label(language.t("delete"), systemImage: "trash")
                                             }
                                             
                                             
@@ -48,7 +49,7 @@ struct CreateDayView: View {
                                                 viewModel.startTime = task.startHour
                                                 viewModel.endTime = task.endHour
                                             } label: {
-                                                Label("Edit", systemImage: "ellipsis")
+                                                Label(language.t("edit"), systemImage: "ellipsis")
                                             }
                                             .tint(.gray.opacity(0.5))
                                         }
@@ -60,12 +61,12 @@ struct CreateDayView: View {
                     EmptyView()
                 }
                 
-                Section(header: Text(viewModel.updateTask ? "Update routine for \(day)" : "Create routine for \(day)")) {
-                    TextField("Enter task title", text: $viewModel.title)
-                    TextField("Enter task description", text: $viewModel.description)
+                Section(header: Text(viewModel.updateTask ? "\(language.t("update_routine")) \(day)" : "\(language.t("create_routine")) \(day)")) {
+                    TextField(language.t("title_ph"), text: $viewModel.title)
+                    TextField(language.t("description_ph"), text: $viewModel.description)
                     
-                    DatePicker("From", selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
-                    DatePicker("To", selection: $viewModel.endTime, displayedComponents: .hourAndMinute)
+                    DatePicker(language.t("from_ph"), selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
+                    DatePicker(language.t("to_ph"), selection: $viewModel.endTime, displayedComponents: .hourAndMinute)
                 }
                 
                 Button {
@@ -98,7 +99,7 @@ struct CreateDayView: View {
                         viewModel.showAlert.toggle()
                     }
                 } label: {
-                    Text(viewModel.updateTask ? "Update task" : "Save task")
+                    Text(viewModel.updateTask ? language.t("update_task") : language.t("create_task"))
                         .foregroundColor(accentColor.color)
                         .fontDesign(.rounded)
                 }
@@ -112,6 +113,7 @@ struct CreateDayView: View {
 
 
 struct RoutineCreatedView: View {
+    @EnvironmentObject private var language: LanguageManager
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var accentColor: AccentColor
     @StateObject var viewModel = CreateDayViewModel()
@@ -153,7 +155,7 @@ struct RoutineCreatedView: View {
                     .frame(width: 24, height: 24)
                     .foregroundColor(accentColor.color)
 
-                Text("Swipe to delete")
+                Text(language.t("swipe_to_delete"))
                     .font(.caption2)
                     .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .gray)
                     .multilineTextAlignment(.center)

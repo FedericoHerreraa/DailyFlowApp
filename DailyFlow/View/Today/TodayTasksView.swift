@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct TodayTasksView: View {
+    @EnvironmentObject private var languageManager: LanguageManager
     @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) private var modelContext
     @Query private var routines: [Routine]
@@ -22,7 +23,7 @@ struct TodayTasksView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("Today tasks")
+                Text(languageManager.t("today_task_title"))
                     .font(.title2)
                     .bold()
                     .fontDesign(.rounded)
@@ -55,14 +56,14 @@ struct TodayTasksView: View {
             NavigationStack {
                 VStack(alignment: .trailing) {
                     CreateDayView(day: todaysDay())
-                        .navigationTitle("Create fast routine")
+                        .navigationTitle(languageManager.t("create_fast_routine"))
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
                             ToolbarItem(placement: .confirmationAction) {
                                 Button {
                                     showSheetCreateTask = false
                                 } label: {
-                                    Text("Done")
+                                    Text(languageManager.t("close_modal_button"))
                                         .foregroundColor(accentColor.color)
                                         .fontDesign(.rounded)
                                 }
@@ -153,6 +154,8 @@ struct TaskView: View {
 
 
 struct NoRoutineView: View {
+    @EnvironmentObject private var languageManager: LanguageManager
+    
     var body: some View {
         VStack(spacing: 16) {
             Image(systemName: "calendar.badge.exclamationmark")
@@ -161,12 +164,12 @@ struct NoRoutineView: View {
                 .frame(width: 60, height: 60)
                 .foregroundColor(.gray.opacity(0.6))
             
-            Text("No tasks for today")
+            Text(languageManager.t("no_task_title"))
                 .font(.title3)
                 .bold()
                 .fontDesign(.rounded)
             
-            Text("Tap the + button to start planning your day.")
+            Text(languageManager.t("no_task_description"))
                 .font(.subheadline)
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.center)

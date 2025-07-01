@@ -10,6 +10,7 @@ import SwiftData
 
 
 struct CalendarHomeView: View {
+    @EnvironmentObject private var language: LanguageManager
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
     
@@ -19,7 +20,7 @@ struct CalendarHomeView: View {
     
     var body: some View {
         HStack(spacing: 8) {
-            ForEach(routineManager.weekdays, id: \.self) { day in
+            ForEach(language.t("home").contains("Home") ? language.englishWeekdays : language.spanishWeekdays, id: \.self) { day in
                 CalendarDayView(day: day)
             }
         }

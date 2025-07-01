@@ -11,20 +11,8 @@ struct MonthSheetCalendarView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .trailing) {
-                MonthCalendarView(title: false)
+                MonthCalendarView()
                     .padding(.top, 20)
-//                    .toolbar {
-//                        ToolbarItem(placement: .confirmationAction) {
-//                            Button {
-//                                showCalendarSheet = false
-//                            } label: {
-//                                Text("Done")
-//                                    .bold()
-//                                    .foregroundColor(accentColor.color)
-//                                    .fontDesign(.rounded)
-//                            }
-//                        }
-//                    }
             }
         }
     }

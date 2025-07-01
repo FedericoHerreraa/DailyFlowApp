@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject private var languageManager: LanguageManager
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding: Bool = false
     @State private var showSheet = false
     @Environment(\.colorScheme) var colorScheme
@@ -54,7 +55,7 @@ struct HomeView: View {
                 }
                 
                 ToolbarItem(placement: .topBarLeading) {
-                    Text("Welcome back")
+                    Text(languageManager.t("welcome_back"))
                         .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.6))
                         .fontDesign(.rounded)
                 }

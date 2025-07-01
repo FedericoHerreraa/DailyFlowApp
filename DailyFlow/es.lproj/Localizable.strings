@@ -1,0 +1,62 @@
+/* 
+  Localizable.strings
+  DailyFlowApp
+
+  Created by Federico Herrera on 01/07/2025.
+  
+*/
+
+"home" = "Inicio";
+"routines" = "Rutinas";
+"settings" = "Ajustes";
+
+"home_summary_title" = "Buenos";
+"morning" = "dias";
+"afternoon" = "tardes";
+"evening" = "tardes";
+"night" = "noches";
+"home_summary_description" = "Todavia no tenes tareas para hoy, agregalas!";
+
+"today_task_title" = "Tareas de hoy";
+"create_fast_routine" = "Crear rutina rapida";
+"no_task_title" = "No hay tareas para hoy";
+"no_task_description" = "Presiona el + para empezar a planear tu dia";
+"close_modal_button" = "Cerrar";
+
+"progress_title" = "Progreso de hoy";
+"no_progress_description" = "No hay nada todavia, hacelo ya!";
+
+"welcome_back" = "Bienvenido de nuevo";
+
+"create_your_routine" = "Crea tu rutina";
+"search_input" = "Buscar por dia";
+"with_routine" = "Con rutina";
+"without_routine" = "Sin rutina";
+"have_routine" = "Ya tenes una rutina";
+"do_not_have_routine" = "Todavia no tenes una rutina";
+
+"routine_for" = "Rutina para";
+"delete" = "Eliminar";
+"edit" = "Editar";
+"update_routine" = "Actualizar rutina para";
+"create_routine" = "Crear rutina para";
+"title_ph" = "Ingresar titulo de tarea";
+"description_ph" = "Ingresar descripcion de tarea";
+"from_ph" = "Desde";
+"to_ph" = "Hasta";
+"create_task" = "Guardar tarea";
+"update_task" = "Actualizar tarea";
+"swipe_to_delete" = "Deslizar para eliminar";
+
+"language" = "Idioma";
+"select_language" = "Seleccionar idioma";
+"select_mode" = "Seleccionar modo";
+"light" = "Claro";
+"dark" = "Oscuro";
+"use_system" = "Usar sistema";
+"notifications" = "Notificaciones";
+"enable_notifications" = "Activar notificaciones";
+"select_accent_color" = "Seleccionar color de app";
+"accent_color" = "Color de app";
+"settings" = "Ajustes";
+"search_settings" = "Buscar ajustes";

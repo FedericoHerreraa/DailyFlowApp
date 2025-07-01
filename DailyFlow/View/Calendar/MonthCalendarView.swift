@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct MonthCalendarView: View {
+    @EnvironmentObject private var language: LanguageManager
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var accentColor: AccentColor
     let calendar = Calendar.current
     let month: Date = Date()
     let daysInWeek = 7
-    var title: Bool = true
 
     var days: [Date] {
         guard
@@ -41,7 +41,7 @@ struct MonthCalendarView: View {
                             .fill(accentColor.color)
                             .frame(width: 13, height: 13)
                         
-                        Text("With routine")
+                        Text(language.t("with_routine"))
                             .fontDesign(.rounded)
                     }
                     
@@ -50,7 +50,7 @@ struct MonthCalendarView: View {
                             .fill(.gray.opacity(colorScheme == .dark ? 1 : 0.3))
                             .frame(width: 13, height: 13)
                         
-                        Text("Without routine")
+                        Text(language.t("without_routine"))
                             .fontDesign(.rounded)
                     }
                     
@@ -79,16 +79,6 @@ struct MonthCalendarView: View {
                 }
                 .padding()
             }
-            .navigationTitle(title ? "\(month, format: .dateTime.year().month())" : "")
-            .toolbar {
-                if title {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Text("Welcome back")
-                            .foregroundColor(colorScheme == .dark ? .white.opacity(0.6) : .black.opacity(0.6))
-                            .fontDesign(.rounded)
-                    }
-                }
-            }
             
             Spacer()
         }
@@ -96,6 +86,6 @@ struct MonthCalendarView: View {
 }
 
 #Preview {
-    MonthCalendarView(title: true)
+    MonthCalendarView()
         .environmentObject(AccentColor())
 }

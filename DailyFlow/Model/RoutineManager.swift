@@ -14,8 +14,6 @@ struct RoutineManager {
     let modelContext: ModelContext
     let routines: [Routine]
     
-    let weekdays: [String] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    
     func addTaskToRoutine(task: Task, day: String) {
         scheduleNotification(for: task)
         if let routine = routines.first(where: { $0.day == day }) {
@@ -74,9 +72,11 @@ struct RoutineManager {
             return
         }
         
+        let language = UserDefaults.standard.string(forKey: "selectedLanguage")
+        
         let content = UNMutableNotificationContent()
-        content.title = "¡Es hora de empezar!"
-        content.body = "Tarea: \(task.title)"
+        content.title = language == "es" ? "¡Es hora de empezar!" : "It's time to start!"
+        content.body = language == "es" ? "Tarea: \(task.title)" : "Task: \(task.title)"
         content.sound = .default
         
         var triggerDate = DateComponents()
