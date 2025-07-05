@@ -74,28 +74,50 @@ struct RoutineManager {
         
         let language = UserDefaults.standard.string(forKey: "selectedLanguage")
         
-        let content = UNMutableNotificationContent()
-        content.title = language == "es" ? "¡Es hora de empezar!" : "It's time to start!"
-        content.body = language == "es" ? "Tarea: \(task.title)" : "Task: \(task.title)"
-        content.sound = .default
+        // Notification at the beggining of the task
+        let contentStart = UNMutableNotificationContent()
+        contentStart.title = language == "es" ? "¡Es hora de empezar!" : "It's time to start!"
+        contentStart.body = language == "es" ? "Tarea: \(task.title)" : "Task: \(task.title)"
+        contentStart.sound = .default
         
-        var triggerDate = DateComponents()
-        triggerDate.hour = Calendar.current.component(.hour, from: task.startHour)
-        triggerDate.minute = Calendar.current.component(.minute, from: task.startHour)
+        // Notification at the end of the task
+        let contentEnd = UNMutableNotificationContent()
+        contentEnd.title = language == "es" ? "¡Ya terminaste!" : "Hey, it's done!"
+        contentEnd.body = language == "es" ? "Tarea: \(task.title)" : "Task: \(task.title)"
+        contentEnd.sound = .default
+        
+        let triggerDateStart = Calendar.current.dateComponents([.hour, .minute], from: task.startHour)
+        
+        let triggerDateEnd = Calendar.current.dateComponents([.hour, .minute], from: task.endHour)
 
-        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+        let triggerStart = UNCalendarNotificationTrigger(dateMatching: triggerDateStart, repeats: false)
+        let triggerEnd = UNCalendarNotificationTrigger(dateMatching: triggerDateEnd, repeats: false)
 
-        let request = UNNotificationRequest(
-            identifier: task.id.uuidString,
-            content: content,
-            trigger: trigger
+        let requestStart = UNNotificationRequest(
+            identifier: "\(task.id.uuidString)-start",
+            content: contentStart,
+            trigger: triggerStart
         )
 
-        UNUserNotificationCenter.current().add(request) { error in
+        let requestEnd = UNNotificationRequest(
+            identifier: "\(task.id.uuidString)-end",
+            content: contentEnd,
+            trigger: triggerEnd
+        )
+
+        UNUserNotificationCenter.current().add(requestStart) { error in
             if let error = error {
                 print("❌ Error al agendar: \(error.localizedDescription)")
             } else {
-                print("✅ Notificación agendada para: \(triggerDate.hour ?? 0):\(triggerDate.minute ?? 0)")
+                print("✅ Notificación inicio agendada para: \(triggerDateStart.hour ?? 0):\(triggerDateStart.minute ?? 0)")
+            }
+        }
+        
+        UNUserNotificationCenter.current().add(requestEnd) { error in
+            if let error = error {
+                print("❌ Error al agendar: \(error.localizedDescription)")
+            } else {
+                print("✅ Notificación final agendada para: \(triggerDateEnd.hour ?? 0):\(triggerDateEnd.minute ?? 0)")
             }
         }
     }
