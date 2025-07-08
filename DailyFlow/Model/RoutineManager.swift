@@ -38,7 +38,19 @@ struct RoutineManager {
     }
     
     func routineForThatDay(day: String) -> Routine? {
-        routines.first { $0.tasks.count > 0 && $0.day == day }
+        let dayTranslation: [String: String] = [
+            "Lunes": "Monday",
+            "Martes": "Tuesday",
+            "Miercoles": "Wednesday",
+            "Jueves": "Thursday",
+            "Viernes": "Friday",
+            "Sabado": "Saturday",
+            "Domingo": "Sunday"
+        ]
+        
+        let translatedDay = dayTranslation[day] ?? day
+        
+        return routines.first { $0.tasks.count > 0 && $0.day == translatedDay }
     }
     
     func todaysRoutine() -> Routine? {

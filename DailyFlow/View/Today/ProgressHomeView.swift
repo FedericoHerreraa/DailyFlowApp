@@ -73,7 +73,7 @@ struct ProgressHomeView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(Color(.systemGray6))
-        .cornerRadius(12)
+        .cornerRadius(30)
         .padding(.horizontal)
         .onReceive(timer) { input in
             currentDate = input 

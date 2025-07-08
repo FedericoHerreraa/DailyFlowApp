@@ -104,6 +104,7 @@ struct RoutineView: View {
                 }
                 .listStyle(.plain)
                 .padding(.top, 20)
+                .padding(.horizontal, 5)
                 
             }
             .navigationTitle(language.t("create_your_routine"))
@@ -131,6 +132,7 @@ struct RoutineView: View {
         .sheet(isPresented: $viewModel.showCalendarSheet) {
             MonthSheetCalendarView(showCalendarSheet: $viewModel.showCalendarSheet)
                 .presentationDetents([.medium])
+                .presentationCornerRadius(30)
         }
     }
 }

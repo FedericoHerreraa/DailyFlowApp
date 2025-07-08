@@ -18,6 +18,7 @@ final class CreateDayViewModel: ObservableObject {
     @Published var showAlert: Bool = false
     @Published var textAlert: String = ""
     @Published var updateTask: Bool = false
+    @Published var repeatTask: Bool = false
     
     func clear() {
         title = ""

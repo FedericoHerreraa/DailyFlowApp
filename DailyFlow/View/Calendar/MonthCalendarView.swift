@@ -60,8 +60,8 @@ struct MonthCalendarView: View {
                 .padding(.horizontal)
                 
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], id: \.self) { day in
-                        Text(day)
+                    ForEach(language.t("home_summary_title").contains("Buenos") ? language.spanishWeekdays : language.englishWeekdays, id: \.self) { day in
+                        Text(day.prefix(3))
                             .font(.caption)
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity)

@@ -71,6 +71,7 @@ struct TodayTasksView: View {
                         }
                 }
             }
+            .presentationCornerRadius(30)
         }
     }
     
@@ -110,11 +111,18 @@ struct TaskView: View {
                         .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
                         .fontDesign(.rounded)
                     
-                    Text("\(formattedHour(task.startHour)) - \(formattedHour(task.endHour))")
-                        .font(.headline)
-                        .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.8))
-                        .bold()
-                        .fontDesign(.rounded)
+                    HStack {
+                        Image(systemName: "clock")
+                            .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
+                        
+                        Text("\(formattedHour(task.startHour))hs - \(formattedHour(task.endHour))hs")
+                            .font(.subheadline)
+                            .foregroundColor(colorScheme == .dark ? .white.opacity(0.8) : .black.opacity(0.8))
+                            .bold()
+                            .fontDesign(.rounded)
+                    }
+                    .padding(.top)
+                    
                 }
             }
             .frame(height: calculateHeight(start: task.startHour, end: task.endHour))
@@ -129,9 +137,9 @@ struct TaskView: View {
                     endPoint: .bottomTrailing
                 )
             )
-            .cornerRadius(16)
+            .cornerRadius(26)
             .overlay(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: 26)
                     .stroke(accentColor.color.opacity(0.3), lineWidth: 1)
             )
         }

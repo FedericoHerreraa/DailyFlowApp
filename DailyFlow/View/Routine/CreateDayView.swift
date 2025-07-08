@@ -67,6 +67,8 @@ struct CreateDayView: View {
                     
                     DatePicker(language.t("from_ph"), selection: $viewModel.startTime, displayedComponents: .hourAndMinute)
                     DatePicker(language.t("to_ph"), selection: $viewModel.endTime, displayedComponents: .hourAndMinute)
+                    
+                    Toggle("Repetir todas las semanas", isOn: $viewModel.repeatTask)
                 }
                 
                 Button {
@@ -79,7 +81,8 @@ struct CreateDayView: View {
                                 title: viewModel.title,
                                 description: viewModel.description,
                                 startHour: viewModel.startTime,
-                                endHour: viewModel.endTime
+                                endHour: viewModel.endTime,
+//                                repeatTask: viewModel.repeatTask
                             )
                             routineManager.updateTask(updatedTask: task, day: day)
                             viewModel.updateTask = false
@@ -88,7 +91,8 @@ struct CreateDayView: View {
                                 title: viewModel.title,
                                 description: viewModel.description,
                                 startHour: viewModel.startTime,
-                                endHour: viewModel.endTime
+                                endHour: viewModel.endTime,
+//                                repeatTask: viewModel.repeatTask
                             )
                             routineManager.addTaskToRoutine(task: task, day: day)
                         }
@@ -144,7 +148,7 @@ struct RoutineCreatedView: View {
             }
             .padding(10)
             .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color(.systemGray6))
-            .cornerRadius(8)
+            .cornerRadius(20)
             
             Spacer()
             
@@ -169,4 +173,5 @@ struct RoutineCreatedView: View {
 #Preview {
     CreateDayView(day: "Lunes")
         .environmentObject(AccentColor())
+        .environmentObject(LanguageManager())
 }

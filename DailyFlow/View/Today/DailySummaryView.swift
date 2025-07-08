@@ -67,7 +67,7 @@ struct DailySummaryView: View {
         .frame(maxWidth: .infinity)
         .padding()
         .background(Color(.systemGray6))
-        .cornerRadius(15)
+        .cornerRadius(30)
         .padding(.horizontal)
     }
     
@@ -104,4 +104,5 @@ struct DailySummaryView: View {
 
 #Preview {
     DailySummaryView()
+        .environmentObject(LanguageManager())
 }

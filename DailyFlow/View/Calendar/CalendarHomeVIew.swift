@@ -53,7 +53,7 @@ struct CalendarDayView: View {
         .frame(width: 15)
         .padding(.horizontal, 15)
         .padding(.vertical, 15)
-        .background(Color(.systemGray6)).cornerRadius(15)
+        .background(Color(.systemGray6)).cornerRadius(30)
     }
 }
 

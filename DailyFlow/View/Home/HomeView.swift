@@ -39,6 +39,7 @@ struct HomeView: View {
             }
             .sheet(isPresented: $showSheet) {
                 OnboardingView(isOnboardingActive: $showSheet)
+                    .presentationCornerRadius(30)
             }
             .navigationTitle("Daily Flow")
             .toolbar {
@@ -64,6 +65,7 @@ struct HomeView: View {
         .sheet(isPresented: $showCalendarSheet) {
             MonthSheetCalendarView(showCalendarSheet: $showCalendarSheet)
                 .presentationDetents([.medium])
+                .presentationCornerRadius(30)
         }
     }
 }
@@ -74,4 +76,5 @@ struct HomeView: View {
 #Preview {
     HomeView()
         .environmentObject(AccentColor())
+        .environmentObject(LanguageManager())
 }

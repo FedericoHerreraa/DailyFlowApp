@@ -47,4 +47,5 @@ struct TaskTabsView: View {
 #Preview {
     TaskTabsView()
         .environmentObject(AccentColor())
+        .environmentObject(LanguageManager())
 }
