@@ -12,6 +12,7 @@ struct ProgressHomeView: View {
     @EnvironmentObject private var languageManager: LanguageManager
     @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
+    @Environment(\.colorScheme) var colorScheme
     @Query private var routines: [Routine]
     @State private var currentDate = Date()
     
@@ -38,8 +39,24 @@ struct ProgressHomeView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(languageManager.t("progress_title"))
-                .font(.title3)
+            HStack {
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 15)
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
+                
+                Text(languageManager.t("progress_title"))
+                    .font(.title3)
+                    .bold()
+                    .fontDesign(.rounded)
+                
+                Text(routineManager.todaysDay())
+                    .font(.title3)
+                    .bold()
+                    .padding(.leading, -3)
+                    .fontDesign(.rounded)
+            }
 
             if let routine = routineManager.routineForThatDay(day: today) {
                 ProgressView(value: progress)
@@ -75,11 +92,11 @@ struct ProgressHomeView: View {
         .background(Color(.systemGray6))
         .cornerRadius(30)
         .padding(.horizontal)
+//        .padding(.top)
         .onReceive(timer) { input in
             currentDate = input 
         }
     }
-    
 }
 
 #Preview {

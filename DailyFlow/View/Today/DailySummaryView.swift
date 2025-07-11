@@ -25,8 +25,8 @@ struct DailySummaryView: View {
                 Image(systemName: "hand.wave.fill")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 25)
-                    .foregroundColor(Color(red: 1.0, green: 0.87, blue: 0.77))
+                    .frame(height: 20)
+                    .foregroundColor(colorScheme == .dark ? .white : .black.opacity(0.7))
                 
                 Text("\(language.t("home_summary_title")) \(greetingTime())")
                     .font(.title3)
@@ -40,7 +40,7 @@ struct DailySummaryView: View {
                     HStack(alignment: .center) {
                         Image(systemName: "list.bullet.clipboard")
                         Text("\(routine.tasks.count) \(language.t("home_summary_title").contains("Buenos") ? "tarea\(routine.tasks.count == 1 ? "" : "s") para hoy" : "task\(routine.tasks.count == 1 ? "" : "s") for today")")
-                            .font(.headline)
+                            .font(.subheadline)
                             .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
                             .fontDesign(.rounded)
                     }
@@ -50,7 +50,7 @@ struct DailySummaryView: View {
                             HStack(alignment: .center) {
                                 Image(systemName: "clock")
                                 Text("\(formatted(firstTask.startHour)) - \(formatted(lastTask.endHour))")
-                                    .font(.headline)
+                                    .font(.subheadline)
                                     .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
                                     .fontDesign(.rounded)
                             }

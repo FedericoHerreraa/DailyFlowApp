@@ -14,6 +14,7 @@ import UserNotifications
 struct DailyFlowApp: App {
     @StateObject var accentColor = AccentColor()
     @StateObject var languageManager = LanguageManager()
+    @StateObject var selectedDayRoutine = SelectedDayRoutine()
     @AppStorage("notificationsEnabled") var notificationsEnabled: Bool = false
     @AppStorage("appColorScheme") private var appColorScheme: String = "system"
     
@@ -22,6 +23,7 @@ struct DailyFlowApp: App {
             TaskTabsView()
                 .environmentObject(accentColor)
                 .environmentObject(languageManager)
+                .environmentObject(selectedDayRoutine)
                 .preferredColorScheme(mapColorScheme(appColorScheme))
                 .onAppear {
                     requestNotificationPermissions()

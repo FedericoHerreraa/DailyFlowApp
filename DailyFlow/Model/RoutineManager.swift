@@ -13,6 +13,18 @@ import UserNotifications
 struct RoutineManager {
     let modelContext: ModelContext
     let routines: [Routine]
+    let daysEnglish = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    let daysSpanish = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+    let dayTranslation: [String: String] = [
+        "Lunes": "Monday",
+        "Martes": "Tuesday",
+        "Miercoles": "Wednesday",
+        "Jueves": "Thursday",
+        "Viernes": "Friday",
+        "Sabado": "Saturday",
+        "Domingo": "Sunday"
+    ]
+    let language = UserDefaults.standard.string(forKey: "selectedLanguage")
     
     func addTaskToRoutine(task: Task, day: String) {
         scheduleNotification(for: task)
@@ -37,19 +49,25 @@ struct RoutineManager {
         }
     }
     
+    func todaysDay() -> String {
+        let today = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE"
+        formatter.locale = Locale(identifier: "es_ES")
+        let day = formatter.string(from: today).capitalized
+        
+        var newDay = ""
+        if language == "en" {
+            newDay = dayTranslation[day] ?? day
+        } else {
+            newDay = day
+        }
+        
+        return newDay
+    }
+    
     func routineForThatDay(day: String) -> Routine? {
-        let dayTranslation: [String: String] = [
-            "Lunes": "Monday",
-            "Martes": "Tuesday",
-            "Miercoles": "Wednesday",
-            "Jueves": "Thursday",
-            "Viernes": "Friday",
-            "Sabado": "Saturday",
-            "Domingo": "Sunday"
-        ]
-        
         let translatedDay = dayTranslation[day] ?? day
-        
         return routines.first { $0.tasks.count > 0 && $0.day == translatedDay }
     }
     
@@ -83,9 +101,7 @@ struct RoutineManager {
             print("🔕 Notificaciones desactivadas")
             return
         }
-        
-        let language = UserDefaults.standard.string(forKey: "selectedLanguage")
-        
+                
         // Notification at the beggining of the task
         let contentStart = UNMutableNotificationContent()
         contentStart.title = language == "es" ? "¡Es hora de empezar!" : "It's time to start!"

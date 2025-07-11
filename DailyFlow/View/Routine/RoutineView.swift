@@ -38,7 +38,7 @@ struct RoutineView: View {
                                 .frame(width: 13, height: 13)
                             
                             Text(language.t("with_routine"))
-                                .font(.subheadline)
+                                .font(.system(size: 13))
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .padding(.leading, 2)
                                 .fontDesign(.rounded)
@@ -48,11 +48,11 @@ struct RoutineView: View {
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 7)
-                        .background(viewModel.filterByCreated ? accentColor.color.opacity(0.1) : Color.gray.opacity(0.1))
+                        .background(viewModel.filterByCreated ? accentColor.color.opacity(0.1) : Color(.systemGray6))
                         .clipShape(Capsule())
                         .overlay {
                             RoundedRectangle(cornerRadius: 18)
-                                .stroke(viewModel.filterByCreated ? accentColor.color : Color.gray.opacity(0.5), lineWidth: 2)
+                                .stroke(viewModel.filterByCreated ? accentColor.color : Color(.systemGray6), lineWidth: 1)
                         }
                     }
                     
@@ -69,7 +69,7 @@ struct RoutineView: View {
                                 .frame(width: 13, height: 13)
                             
                             Text(language.t("without_routine"))
-                                .font(.subheadline)
+                                .font(.system(size: 13))
                                 .foregroundColor(colorScheme == .dark ? .white : .black)
                                 .padding(.leading, 2)
                                 .fontDesign(.rounded)
@@ -79,11 +79,11 @@ struct RoutineView: View {
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 7)
-                        .background(viewModel.filterByNoCreated ? accentColor.color.opacity(0.1) : Color.gray.opacity(0.1))
+                        .background(viewModel.filterByNoCreated ? accentColor.color.opacity(0.1) : Color(.systemGray6))
                         .clipShape(Capsule())
                         .overlay {
                             RoundedRectangle(cornerRadius: 18)
-                                .stroke(viewModel.filterByNoCreated ? accentColor.color : Color.gray.opacity(0.5), lineWidth: 2)
+                                .stroke(viewModel.filterByNoCreated ? accentColor.color : Color(.systemGray6), lineWidth: 1)
                         }
                     }
 

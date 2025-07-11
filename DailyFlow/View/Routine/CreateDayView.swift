@@ -12,16 +12,15 @@ struct CreateDayView: View {
     @EnvironmentObject private var language: LanguageManager
     @EnvironmentObject private var accentColor: AccentColor
     @Environment(\.modelContext) var modelContext
+    @StateObject var viewModel = CreateDayViewModel()
     @Query private var routines: [Routine]
     
     var routineManager: RoutineManager {
         RoutineManager(modelContext: modelContext, routines: routines)
     }
     
-    @StateObject var viewModel = CreateDayViewModel()
-    let day: String
+    var day: String
    
-    
     var body: some View {
         NavigationView {
             Form {
@@ -126,7 +125,7 @@ struct RoutineCreatedView: View {
     var body: some View {
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 3) {
-                Text("\(viewModel.formattedHour(task.startHour)) - \(viewModel.formattedHour(task.endHour))")
+                Text("\(viewModel.formattedHour(task.startHour))hs - \(viewModel.formattedHour(task.endHour))hs")
                     .font(.subheadline)
                     .foregroundColor(colorScheme == .dark ? .white : .black)
                     .fontDesign(.rounded)
@@ -146,9 +145,6 @@ struct RoutineCreatedView: View {
                 }
 
             }
-            .padding(10)
-            .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color(.systemGray6))
-            .cornerRadius(20)
             
             Spacer()
             

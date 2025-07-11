@@ -11,6 +11,7 @@ import SwiftData
 struct TodayTasksView: View {
     @EnvironmentObject private var languageManager: LanguageManager
     @EnvironmentObject private var accentColor: AccentColor
+    @EnvironmentObject private var selectedDay: SelectedDayRoutine
     @Environment(\.modelContext) private var modelContext
     @Query private var routines: [Routine]
     
@@ -23,10 +24,18 @@ struct TodayTasksView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text(languageManager.t("today_task_title"))
-                    .font(.title2)
-                    .bold()
-                    .fontDesign(.rounded)
+                HStack {
+                    Text(languageManager.t("today_task_title"))
+                        .font(.title2)
+                        .bold()
+                        .fontDesign(.rounded)
+                    
+                    Text(selectedDay.selectedDay)
+                        .font(.title2)
+                        .bold()
+                        .fontDesign(.rounded)
+                        .padding(.leading, -4)
+                }
                 
                 Spacer()
                 
@@ -43,19 +52,20 @@ struct TodayTasksView: View {
             }
             .padding(.horizontal, 25)
             
-            if let routine = routineManager.todaysRoutine() {
-                ForEach(routine.tasks.sorted(by: { $0.startHour < $1.startHour })) { task in
-                    TaskView(task: task)
+            Group {
+                if let routine = routineManager.routineForThatDay(day: selectedDay.selectedDay) {
+                    ForEach(routine.tasks.sorted(by: { $0.startHour < $1.startHour })) { task in
+                        TaskView(task: task)
+                    }
+                } else {
+                    NoRoutineView()
                 }
-            } else {
-                NoRoutineView()
             }
-            
         }
         .sheet(isPresented: $showSheetCreateTask) {
             NavigationStack {
                 VStack(alignment: .trailing) {
-                    CreateDayView(day: todaysDay())
+                    CreateDayView(day: routineManager.dayTranslation[selectedDay.selectedDay] ?? selectedDay.selectedDay)
                         .navigationTitle(languageManager.t("create_fast_routine"))
                         .navigationBarTitleDisplayMode(.inline)
                         .toolbar {
@@ -73,16 +83,6 @@ struct TodayTasksView: View {
             }
             .presentationCornerRadius(30)
         }
-    }
-    
-    func todaysDay() -> String {
-        let today = Date()
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE"
-        formatter.locale = Locale(identifier: "en_US")
-        
-        return formatter.string(from: today)
     }
 }
 
@@ -121,8 +121,6 @@ struct TaskView: View {
                             .bold()
                             .fontDesign(.rounded)
                     }
-                    .padding(.top)
-                    
                 }
             }
             .frame(height: calculateHeight(start: task.startHour, end: task.endHour))

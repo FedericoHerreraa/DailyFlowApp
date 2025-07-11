@@ -17,13 +17,13 @@
 "night" = "noches";
 "home_summary_description" = "Todavia no tenes tareas para hoy, agregalas!";
 
-"today_task_title" = "Tareas de hoy";
+"today_task_title" = "Tareas de";
 "create_fast_routine" = "Crear rutina rapida";
 "no_task_title" = "No hay tareas para hoy";
 "no_task_description" = "Presiona el + para empezar a planear tu dia";
 "close_modal_button" = "Cerrar";
 
-"progress_title" = "Progreso de hoy";
+"progress_title" = "Progreso de";
 "no_progress_description" = "No hay nada todavia, hacelo ya!";
 
 "welcome_back" = "Bienvenido de nuevo";

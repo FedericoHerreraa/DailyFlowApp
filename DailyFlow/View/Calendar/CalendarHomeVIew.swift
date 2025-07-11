@@ -8,57 +8,9 @@
 import SwiftUI
 import SwiftData
 
-
-//struct CalendarHomeView: View {
-//    @EnvironmentObject private var language: LanguageManager
-//    @Environment(\.modelContext) var modelContext
-//    @Query private var routines: [Routine]
-//    
-//    var routineManager: RoutineManager {
-//        RoutineManager(modelContext: modelContext, routines: routines)
-//    }
-//    
-//    var body: some View {
-//        HStack(spacing: 8) {
-//            ForEach(language.t("home").contains("Home") ? language.englishWeekdays : language.spanishWeekdays, id: \.self) { day in
-//                CalendarDayView(day: day)
-//            }
-//        }
-//    }
-//}
-//
-//
-//struct CalendarDayView: View {
-//    @EnvironmentObject private var accentColor: AccentColor
-//    @Environment(\.modelContext) var modelContext
-//    @Query private var routines: [Routine]
-//    
-//    var routineManager: RoutineManager {
-//        RoutineManager(modelContext: modelContext, routines: routines)
-//    }
-//    
-//    let day: String
-//    
-//    var body: some View {
-//        VStack(alignment: .center) {
-//            Circle()
-//                .fill(routineManager.routineForThatDay(day: day) != nil ? accentColor.color : Color.gray)
-//                .frame(width: 10, height: 10)
-//            
-//            Text(day.prefix(1).uppercased())
-//                .font(.headline)
-//                .bold()
-//                .fontDesign(.rounded)
-//        }
-//        .frame(width: 15)
-//        .padding(.horizontal, 15)
-//        .padding(.vertical, 15)
-//        .background(Color(.systemGray6)).cornerRadius(30)
-//    }
-//}
-
 struct CalendarHomeView: View {
     @EnvironmentObject private var language: LanguageManager
+    @EnvironmentObject private var selectedDay: SelectedDayRoutine
     @Environment(\.modelContext) var modelContext
     @Query private var routines: [Routine]
     @State var selectedTab: String = ""
@@ -72,7 +24,14 @@ struct CalendarHomeView: View {
     }
     
     var defaultDay: String {
-        language.t("home").contains("Home") ? "Monday" : "Lunes"
+        let dayNumber = Calendar.current.component(.weekday, from: Date())
+        
+        let daysEnglish = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        let daysSpanish = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+        
+        let isEnglish = language.t("home").contains("Home")
+        
+        return isEnglish ? daysEnglish[dayNumber - 1] : daysSpanish[dayNumber - 1]
     }
 
     var body: some View {
@@ -88,6 +47,9 @@ struct CalendarHomeView: View {
             if selectedTab.isEmpty {
                 selectedTab = defaultDay
             }
+        }
+        .onChange(of: selectedTab) {
+            selectedDay.selectedDay = selectedTab
         }
     }
 }
@@ -130,8 +92,8 @@ struct CalendarDayView: View {
                     .fontDesign(.rounded)
             }
         }
-        .frame(width: isSelected ? 80 : 35)
-        .padding(.horizontal, 8)
+        .fixedSize()
+        .padding(.horizontal, 10)
         .padding(.vertical, 10)
         .background(isSelected ? accentColor.color.opacity(0.2) : Color(.systemGray6))
         .cornerRadius(30)

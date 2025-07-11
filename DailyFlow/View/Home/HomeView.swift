@@ -20,13 +20,13 @@ struct HomeView: View {
                 DailySummaryView()
                     .padding(.top, 15)
                 
+                ProgressHomeView()
+                    .padding(.top, 7)
+                
                 CalendarHomeView()
-                    .padding(.top, 15)
+                    .padding(.top, 10)
                 
                 TodayTasksView()
-                    .padding(.top, 20)
-                
-                ProgressHomeView()
                     .padding(.top, 20)
                 
                 Spacer()
