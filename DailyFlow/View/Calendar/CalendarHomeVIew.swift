@@ -95,7 +95,7 @@ struct CalendarDayView: View {
         .fixedSize()
         .padding(.horizontal, 10)
         .padding(.vertical, 10)
-        .background(isSelected ? accentColor.color.opacity(0.2) : Color(.systemGray6))
+        .background(isSelected ? accentColor.color.opacity(0.3) : Color(.systemGray6))
         .cornerRadius(30)
         .onTapGesture {
             withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {

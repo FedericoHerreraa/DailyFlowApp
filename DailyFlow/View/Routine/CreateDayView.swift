@@ -47,8 +47,9 @@ struct CreateDayView: View {
                                                 viewModel.description = task.taskDescription
                                                 viewModel.startTime = task.startHour
                                                 viewModel.endTime = task.endHour
+                                                viewModel.repeatTask = task.repeatTask
                                             } label: {
-                                                Label(language.t("edit"), systemImage: "ellipsis")
+                                                Label(language.t("edit"), systemImage: "pencil")
                                             }
                                             .tint(.gray.opacity(0.5))
                                         }
@@ -81,7 +82,7 @@ struct CreateDayView: View {
                                 description: viewModel.description,
                                 startHour: viewModel.startTime,
                                 endHour: viewModel.endTime,
-//                                repeatTask: viewModel.repeatTask
+                                repeatTask: viewModel.repeatTask
                             )
                             routineManager.updateTask(updatedTask: task, day: day)
                             viewModel.updateTask = false
@@ -91,7 +92,7 @@ struct CreateDayView: View {
                                 description: viewModel.description,
                                 startHour: viewModel.startTime,
                                 endHour: viewModel.endTime,
-//                                repeatTask: viewModel.repeatTask
+                                repeatTask: viewModel.repeatTask
                             )
                             routineManager.addTaskToRoutine(task: task, day: day)
                         }

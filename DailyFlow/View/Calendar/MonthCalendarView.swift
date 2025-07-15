@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MonthCalendarView: View {
     @EnvironmentObject private var language: LanguageManager
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var accentColor: AccentColor
+    @Query private var routines: [Routine]
+    
     let calendar = Calendar.current
     let month: Date = Date()
     let daysInWeek = 7
-
+    
     var days: [Date] {
         guard
             let monthInterval = calendar.dateInterval(of: .month, for: month),
@@ -23,13 +26,13 @@ struct MonthCalendarView: View {
         else {
             return []
         }
-
+        
         let daysRange = calendar.dateComponents([.day], from: firstWeek.start, to: lastWeek.end).day ?? 0
         return (0..<daysRange).compactMap {
             calendar.date(byAdding: .day, value: $0, to: firstWeek.start)
         }
     }
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -60,7 +63,7 @@ struct MonthCalendarView: View {
                 .padding(.horizontal)
                 
                 LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(language.t("home_summary_title").contains("Buenos") ? language.spanishWeekdays : language.englishWeekdays, id: \.self) { day in
+                    ForEach(language.t("home_summary_title").contains("Buen") ? language.spanishWeekdays : language.englishWeekdays, id: \.self) { day in
                         Text(day.prefix(3))
                             .font(.caption)
                             .fontWeight(.bold)
@@ -68,13 +71,25 @@ struct MonthCalendarView: View {
                     }
                     
                     ForEach(days, id: \.self) { date in
-                        Text("\(calendar.component(.day, from: date))")
-                            .frame(maxWidth: .infinity, minHeight: 40)
-                            .background(
-                                calendar.isDate(date, inSameDayAs: Date()) ?
-                                accentColor.color.opacity(0.2) : Color.clear
-                            )
-                            .clipShape(Circle())
+                        VStack {
+                            Text("\(calendar.component(.day, from: date))")
+                                .frame(maxWidth: .infinity, minHeight: 40)
+                                .background(
+                                    calendar.isDate(date, inSameDayAs: Date()) ?
+                                    accentColor.color.opacity(0.2) : Color.clear
+                                )
+                                .clipShape(Circle())
+                            
+                            if hasTask(on: date) {
+                                Circle()
+                                    .fill(accentColor.color)
+                                    .frame(width: 6, height: 6)
+                            } else {
+                                Circle()
+                                    .fill(.gray.opacity(colorScheme == .dark ? 1 : 0.3))
+                                    .frame(width: 6, height: 6)
+                            }
+                        }
                     }
                 }
                 .padding()
@@ -82,6 +97,33 @@ struct MonthCalendarView: View {
             
             Spacer()
         }
+    }
+    
+    func hasTask(on date: Date) -> Bool {
+        let weekdayName = calendar.weekdaySymbols[calendar.component(.weekday, from: date) - 1]
+
+        for routine in routines {
+            if routine.day == weekdayName {
+                for task in routine.tasks where task.repeatTask {
+                    return true
+                }
+            }
+
+            for task in routine.tasks where !task.repeatTask {
+                print(task.title)
+                let taskWeek = calendar.component(.weekOfYear, from: task.date)
+                let currentWeek = calendar.component(.weekOfYear, from: date)
+
+                let taskYear = calendar.component(.yearForWeekOfYear, from: task.date)
+                let currentYear = calendar.component(.yearForWeekOfYear, from: date)
+
+                let sameWeek = (taskWeek == currentWeek) && (taskYear == currentYear)
+
+                if sameWeek { return true }
+            }
+        }
+
+        return false
     }
 }
 

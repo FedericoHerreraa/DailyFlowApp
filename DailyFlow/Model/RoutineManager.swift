@@ -37,7 +37,8 @@ struct RoutineManager {
     }
     
     func updateTask(updatedTask: Task, day: String) {
-        cancelNotification(for: updatedTask)
+        cancelNotification(for: "\(updatedTask.id.uuidString)-start")
+        cancelNotification(for: "\(updatedTask.id.uuidString)-end")
         scheduleNotification(for: updatedTask)
         if let routine = routines.first(where: { $0.day == day }) {
             if let existingTask = routine.tasks.first(where: { $0.id == updatedTask.id }) {
@@ -45,6 +46,7 @@ struct RoutineManager {
                 existingTask.taskDescription = updatedTask.taskDescription
                 existingTask.startHour = updatedTask.startHour
                 existingTask.endHour = updatedTask.endHour
+                existingTask.repeatTask = updatedTask.repeatTask
             }
         }
     }
@@ -80,7 +82,8 @@ struct RoutineManager {
     }
     
     func deleteTask(_ task: Task, from day: String) {
-        cancelNotification(for: task)
+        cancelNotification(for: "\(task.id.uuidString)-start")
+        cancelNotification(for: "\(task.id.uuidString)-end")
         guard let routine = routineForThatDay(day: day) else { return }
         if let index = routine.tasks.firstIndex(where: { $0.id == task.id }) {
             routine.tasks.remove(at: index)
@@ -150,7 +153,7 @@ struct RoutineManager {
         }
     }
     
-    func cancelNotification(for task: Task) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [task.id.uuidString])
+    func cancelNotification(for taskId: String) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [taskId])
     }
 }

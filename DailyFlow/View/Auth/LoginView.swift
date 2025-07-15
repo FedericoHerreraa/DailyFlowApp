@@ -16,10 +16,16 @@ struct LoginView: View {
     var body: some View {
         VStack(spacing: 20) {
             TextField("Usuario", text: $username)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .textFieldStyle(.plain)
+                .padding()
+                .background(.white.opacity(0.8))
+                .cornerRadius(20)
 
             SecureField("Contraseña", text: $password)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .textFieldStyle(.plain)
+                .padding()
+                .background(.white.opacity(0.8))
+                .cornerRadius(20)
 
             Button("Iniciar sesión") {
                 // Login func

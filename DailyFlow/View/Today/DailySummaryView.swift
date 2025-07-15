@@ -28,7 +28,7 @@ struct DailySummaryView: View {
                     .frame(height: 20)
                     .foregroundColor(colorScheme == .dark ? .white : .black.opacity(0.7))
                 
-                Text("\(language.t("home_summary_title")) \(greetingTime())")
+                Text("\(defineGreeting()) \(greetingTime())")
                     .font(.title3)
                     .bold()
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -39,8 +39,8 @@ struct DailySummaryView: View {
                 HStack(spacing: 15) {
                     HStack(alignment: .center) {
                         Image(systemName: "list.bullet.clipboard")
-                        Text("\(routine.tasks.count) \(language.t("home_summary_title").contains("Buenos") ? "tarea\(routine.tasks.count == 1 ? "" : "s") para hoy" : "task\(routine.tasks.count == 1 ? "" : "s") for today")")
-                            .font(.subheadline)
+                        Text("\(routine.tasks.count) \(language.t("home_summary_title").contains("Buen") ? "tarea\(routine.tasks.count == 1 ? "" : "s") para hoy" : "task\(routine.tasks.count == 1 ? "" : "s") for today")")
+                            .font(.headline)
                             .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
                             .fontDesign(.rounded)
                     }
@@ -50,7 +50,7 @@ struct DailySummaryView: View {
                             HStack(alignment: .center) {
                                 Image(systemName: "clock")
                                 Text("\(formatted(firstTask.startHour)) - \(formatted(lastTask.endHour))")
-                                    .font(.subheadline)
+                                    .font(.headline)
                                     .foregroundColor(colorScheme == .dark ? .white.opacity(0.7) : .black.opacity(0.7))
                                     .fontDesign(.rounded)
                             }
@@ -69,6 +69,19 @@ struct DailySummaryView: View {
         .background(Color(.systemGray6))
         .cornerRadius(30)
         .padding(.horizontal)
+    }
+    
+    func defineGreeting() -> String {
+        if language.t("home_summary_title").contains("Buen") {
+            if language.t("home_summary_title").contains("Buenas") && greetingTime() == "dias" {
+                let original = language.t("home_summary_title")
+                let newTitle = original.replacingOccurrences(of: "a", with: "o")
+                
+                return newTitle
+            }
+        }
+        
+        return language.t("home_summary_title")
     }
     
     func greetingTime() -> String {
