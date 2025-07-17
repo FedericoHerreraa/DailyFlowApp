@@ -100,26 +100,26 @@ struct MonthCalendarView: View {
     }
     
     func hasTask(on date: Date) -> Bool {
-        let weekdayName = calendar.weekdaySymbols[calendar.component(.weekday, from: date) - 1]
-
+        let weekday = calendar.component(.weekday, from: date)
+        let weekdayName = calendar.weekdaySymbols[weekday - 1]
+        
+        let dateWeek = calendar.component(.weekOfYear, from: date)
+        
         for routine in routines {
             if routine.day == weekdayName {
                 for task in routine.tasks where task.repeatTask {
                     return true
                 }
-            }
-
-            for task in routine.tasks where !task.repeatTask {
-                print(task.title)
-                let taskWeek = calendar.component(.weekOfYear, from: task.date)
-                let currentWeek = calendar.component(.weekOfYear, from: date)
-
-                let taskYear = calendar.component(.yearForWeekOfYear, from: task.date)
-                let currentYear = calendar.component(.yearForWeekOfYear, from: date)
-
-                let sameWeek = (taskWeek == currentWeek) && (taskYear == currentYear)
-
-                if sameWeek { return true }
+                
+                for task in routine.tasks where !task.repeatTask {
+                    let taskWeek = calendar.component(.weekOfYear, from: task.date)
+                    
+                    let isSameWeek = taskWeek == dateWeek
+                    
+                    if isSameWeek {
+                        return true
+                    }
+                }
             }
         }
 

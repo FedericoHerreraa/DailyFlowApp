@@ -87,6 +87,7 @@ struct RoutineManager {
         guard let routine = routineForThatDay(day: day) else { return }
         if let index = routine.tasks.firstIndex(where: { $0.id == task.id }) {
             routine.tasks.remove(at: index)
+            try? modelContext.save()
         }
     }
     
